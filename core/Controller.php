@@ -14,6 +14,7 @@ abstract class Controller
     {
         $this->route = $route;
         $this->view = new View($route);
+        $this->checkAccess();
         $this->model = $this->loadModel($route['controller']);
     }
 
@@ -33,6 +34,19 @@ abstract class Controller
         }
         else {
             echo 'Model file is not found: ' . $path;
+        }
+    }
+
+    private function checkAccess() 
+    {
+        $controller = $this->route['controller'];
+
+        if ($controller == 'admin' && !isset($_SESSION['admin'])) {
+            $this->view->redirect('/Blog');
+        }
+
+        else if ($controller == 'account' && isset($_SESSION['admin'])) {
+            $this->view->redirect('/Blog');
         }
     }
 
