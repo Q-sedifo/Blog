@@ -38,7 +38,7 @@ class View
         exit();
     }
 
-    public function redirect($url = '/')
+    public function redirect($url = '/Blog')
     {
         header('Location: ' . $url); 
     }

@@ -42,11 +42,11 @@ abstract class Controller
         $controller = $this->route['controller'];
 
         if ($controller == 'admin' && !isset($_SESSION['admin'])) {
-            $this->view->redirect('/Blog');
+            $this->view->redirect();
         }
 
         else if ($controller == 'account' && isset($_SESSION['admin'])) {
-            $this->view->redirect('/Blog');
+            $this->view->redirect();
         }
     }
 
