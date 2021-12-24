@@ -38,6 +38,11 @@ class View
         exit();
     }
 
+    public function message($message)
+    {
+        echo json_encode($message);
+    }
+
     public function redirect($url = '/Blog')
     {
         header('Location: ' . $url); 
