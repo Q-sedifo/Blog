@@ -40,12 +40,9 @@ abstract class Controller
     private function checkAccess() 
     {
         $controller = $this->route['controller'];
+        $action = $this->route['action'];
 
-        if ($controller == 'admin' && !isset($_SESSION['admin'])) {
-            $this->view->redirect();
-        }
-
-        else if ($controller == 'account' && isset($_SESSION['admin'])) {
+        if ($controller == 'admin' && !isset($_SESSION['admin']) && $action != 'login') {
             $this->view->redirect();
         }
     }

@@ -7,6 +7,7 @@ abstract class Model
 {
 
     public $query;
+    public $error;
 
     public function __construct()
     {
