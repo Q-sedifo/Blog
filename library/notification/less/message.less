@@ -1,0 +1,139 @@
+// main: ../styles.css
+
+// VARIABLES
+
+// Colors
+@red: #d1333e;
+@green: rgb(29, 221, 141);
+@orange: #e09f43;
+@dark: rgb(45, 49, 75);
+@grey: #8489a6;
+@g-green: linear-gradient(to right, #00b09b, #96c93d);
+
+// Times
+@anim: 0.4s;
+
+// Fonts
+@basic-font-size: 14px;
+@large-font-size: 1.4em;
+
+// Basic paddings and margins
+@basic-padding: 8px; 
+@middle-padding: 18px;
+@large-padding: 30px;
+
+// Basic per cents for functions
+@border-radius: 10px;
+@intensivity: 16%;
+
+// Message params
+@width: 300px;
+
+// Media breakpoints
+@breakpoint-ipad: ~"(max-width: 800px)";
+@breakpoint-mobile: ~"(max-width: 575px)";
+@breakpoint-mini: ~"(max-width: 360px)";
+
+
+// MIXINS
+
+// Message background
+.shade-dark() {
+    background-color: darken(@dark, @intensivity);
+}
+
+// Centering
+.center(@type: column) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: @type;
+}
+
+
+// ANIMATIONS FOR MESSAGE
+@keyframes messages {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+// MESSAGE STYLES
+.message(@color: @green) {
+   
+    @width: 300px;
+
+    .shade-dark();
+    font-family: Arial;
+    width: @width;
+    border-radius: @border-radius;
+    font-size: @basic-font-size;
+    font-weight: bold;
+    padding: @middle-padding @large-padding*2 @middle-padding @middle-padding;
+    color: @color;
+    z-index: 1002;
+    position: relative;
+    transition: @anim;
+    word-wrap: break-word;
+    animation: messages @anim;
+    overflow: hidden;
+    line-height: 1.2em;
+
+    box-shadow: 0px 0px 5px @grey;
+
+    position: fixed;
+    left: calc(50% - (@width / 2));
+    bottom: 10%;
+
+    @media @breakpoint-ipad {
+        width: 70%; 
+        left: calc(50% - (70% / 2));
+        bottom: 50px + @basic-padding;
+    }
+}
+
+.message-icon(@color: @green) {
+    // !content
+    color: @color;
+    .center();
+    padding: 0 @large-padding;
+    font-size: @large-font-size;
+    font-weight: bold;
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    text-align: center;
+}
+
+// Error message
+.error-message {
+    
+    .message(@red);
+
+    &:before {
+        content: '!';
+        .message-icon(@red);
+    }
+}
+
+// Success message
+.success-message {
+    .message(@green);
+
+    &:before {
+        content: '✓';
+        .message-icon(@green);
+    }
+}
+
+// Warning message
+.warning-message {
+    .message(@orange);
+
+    &:before {
+        content: '⚠';
+        .message-icon(@orange);
+    }
+}
