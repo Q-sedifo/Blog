@@ -38,9 +38,13 @@ class View
         exit();
     }
 
-    public function message($message)
+    public function message($message, $type = 'success', $success = true)
     {
-        echo json_encode($message);
+        $data['success'] = $success;
+        $data['type'] = $type;
+        $data['message'] = $message;
+
+        echo json_encode($data);
     }
 
     public function redirect($url = '/Blog')
