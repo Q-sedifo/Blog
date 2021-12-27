@@ -8,7 +8,7 @@
     <script src="library/js/jquery.js"></script>
     <!-- Link Notification script -->
     <script src="library/notification/script.js"></script>
-    <link rel="stylesheet" href="library/notification/styles.css">
+    <link rel="stylesheet" href="library/notification/message.css">
     <!-- Link main js script -->
     <script src="public/js/script.js"></script>
     <title>Blog | <?= $title; ?></title>
