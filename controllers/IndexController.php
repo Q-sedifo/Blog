@@ -35,4 +35,25 @@ class IndexController extends Controller
         $this->view->render($adminData['name'], $vars);
     }
 
+    public function contactAction()
+    {
+        if (!empty($_POST)) {
+            if ($this->model->contactValidate($_POST)) {
+                $adminEmail = $this->model->getAdminEmail();
+
+                // Send message on email
+                mail($adminEmail, 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
+
+                // Show message
+                $this->view->message('Message sent successfully');
+            }
+            else {
+                $this->view->message($this->model->error, 'error', false);
+            }
+            exit();
+        }
+
+        $this->view->render('Contact');
+    }
+
 }

@@ -24,4 +24,32 @@ class IndexModel extends Model
         return $result;
     }
 
+    public function getAdminEmail()
+    {
+        return $this->query->column('SELECT email FROM `admin`');
+    }
+
+    public function contactValidate($post)
+    {
+        $name = iconv_strlen($post['name']);
+        $message = iconv_strlen($post['message']);
+        $email = $post['email'];
+        
+        if ($name < 2 || $name > 32) {
+            $this->error = 'Input correct name';
+        }
+
+        else if ($message < 5 || $message > 400) {
+            $this->error = 'Message must contain more than 5 and less than 400 letters';
+        }
+        
+        else if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->error = 'Incorrect email, try again';
+        }
+       
+        // Errors checking
+        if ($this->error) return false;
+        else return true;
+    }
+
 }
