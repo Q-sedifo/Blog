@@ -17,16 +17,24 @@ class IndexModel extends Model
         return $result[0]['amount'];
     }
 
-    public function getAdminData()
+    public function getAdminData($password = false)
     {
-        $data = $this->query->row('SELECT `name`, `bio`, `img`, `background` FROM `admin`');
-        foreach ($data[0] as $name => $value) $result[$name] = $value;
-        return $result;
+        $data = require 'config/data.php';
+
+        // Ckeck premission for getting admin password
+        if ($password) return $data;
+        else {
+            foreach ($data as $key => $value) {
+                if ($key != 'password') $admin[$key] = $value; 
+            }
+            return $admin;
+        }
     }
 
     public function getAdminEmail()
     {
-        return $this->query->column('SELECT email FROM `admin`');
+        $data = $this->getAdminData();
+        return $data['email'];
     }
 
     public function contactValidate($post)
