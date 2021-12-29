@@ -4,20 +4,6 @@ use core\Model;
 
 class AdminModel extends model
 {
-    
-    public function getAdminData($password = false)
-    {
-        $data = require 'config/data.php';
-
-        // Ckeck premission for getting admin password
-        if ($password) return $data;
-        else {
-            foreach ($data as $key => $value) {
-                if ($key != 'password') $admin[$key] = $value; 
-            }
-            return $admin;
-        }
-    }
 
     public function loginValidate($post)
     {

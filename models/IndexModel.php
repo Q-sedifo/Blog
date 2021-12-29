@@ -17,20 +17,6 @@ class IndexModel extends Model
         return $result[0]['amount'];
     }
 
-    public function getAdminData($password = false)
-    {
-        $data = require 'config/data.php';
-
-        // Ckeck premission for getting admin password
-        if ($password) return $data;
-        else {
-            foreach ($data as $key => $value) {
-                if ($key != 'password') $admin[$key] = $value; 
-            }
-            return $admin;
-        }
-    }
-
     public function getAdminEmail()
     {
         $data = $this->getAdminData();
