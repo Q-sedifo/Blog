@@ -18,4 +18,9 @@ class AdminModel extends model
         if (file_exists('logs.txt')) return filesize('logs.txt');
     }
 
+    public function getAllPosts()
+    {
+        return $this->query->row('SELECT * from posts ORDER BY datatime DESC');
+    }
+
 }

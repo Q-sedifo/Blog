@@ -13,9 +13,14 @@ class AdminController extends Controller
 
     public function IndexAction()
     {
-        
+        $posts = $this->model->getAllPosts();
 
-        $this->view->render('Admin panel');
+        // Transfering data
+        $vars = [
+            'posts' => $posts
+        ];
+
+        $this->view->render('Admin panel', $vars);
     }
 
     public function logsAction()
