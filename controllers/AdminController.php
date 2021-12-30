@@ -5,30 +5,19 @@ use core\controller;
 class AdminController extends Controller
 {
 
-    public function loginAction()
+    public function __construct($route)
     {
-        // Access control
-        if (isset($_SESSION['admin'])) {
-            $this->view->redirect();
-        }
-
-        // Login function
-        if (!empty($_POST)) {
-            if ($this->model->loginValidate($_POST)) {
-                $adminData = $this->model->getAdminData(true);
-
-                // Login, create session and inform
-                $_SESSION['admin'] = $adminData;
-                $this->view->message('You logged in');
-            }
-            else {
-                $this->view->message($this->model->error, 'error', false);
-            }
-            exit();
-        }
-
-        $this->view->render('Login');
+        parent::__construct($route);
+        $this->switchLayout($route['controller']);
     }
+
+    public function IndexAction()
+    {
+        
+
+        $this->view->render('Admin panel');
+    }
+
 
     public function logoutAction()
     {

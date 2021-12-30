@@ -8,7 +8,7 @@
     <?php endfor; ?>
 <div>
 <?php if (!isset($_SESSION['admin'])): ?>
-    <a href="?controller=admin&action=login">Login</a>
+    <a href="?action=login">Login</a>
 <?php else: ?>
     <a href="?controller=admin">Admin panel</a>
 <?php endif; ?>

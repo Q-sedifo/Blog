@@ -56,4 +56,37 @@ class IndexController extends Controller
         $this->view->render('Contact');
     }
 
+    public function loginAction()
+    {
+        // Access control
+        if (isset($_SESSION['admin'])) {
+            $this->view->redirect();
+        }
+
+        // Login function
+        if (!empty($_POST)) {
+            if ($this->model->loginValidate($_POST)) {
+                $adminData = $this->model->getAdminData(true);
+
+                // Fix logs with ip and date
+                $ip = $_SERVER['REMOTE_ADDR'];
+                date_default_timezone_set('Europe/Kiev');
+
+                $logs = fopen('logs.txt', 'a');
+                fwrite($logs, $ip . '[' . date('Y-m-d, H:i') . ']' . '|');
+                fclose($logs);
+
+                // Login, create session and inform
+                $_SESSION['admin'] = $adminData;
+                $this->view->message('You logged in');
+            }
+            else {
+                $this->view->message($this->model->error, 'error', false);
+            }
+            exit();
+        }
+
+        $this->view->render('Login');
+    }
+
 }

@@ -37,6 +37,11 @@ abstract class Controller
         }
     }
 
+    public function switchLayout($layout)
+    {
+        $this->view->layout = $layout;
+    }
+
     private function checkAccess() 
     {
         $controller = $this->route['controller'];
