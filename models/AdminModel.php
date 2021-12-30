@@ -23,4 +23,11 @@ class AdminModel extends model
         return $this->query->row('SELECT * from posts ORDER BY datatime DESC');
     }
 
+    public function getPostById($post_id)
+    {
+        $result = $this->query->row("SELECT * FROM posts WHERE id = $post_id");
+        foreach ($result[0] as $key => $value) $post[$key] = $value; 
+        return $post;
+    }
+
 }

@@ -23,6 +23,23 @@ class AdminController extends Controller
         $this->view->render('Admin panel', $vars);
     }
 
+    public function editPostAction()
+    {
+        // Getting post id from Get
+        $postId = isset($_GET['id']) ? intval($_GET['id']) : null;
+    
+        $post = $this->model->getPostById($postId);
+        
+        if (!$post) $this->view->redirect('?controller=admin');
+
+        // Transfering data
+        $vars = [
+            'post' => $post
+        ];
+
+        $this->view->render('Edit post', $vars);
+    }
+
     public function logsAction()
     {
         // Getting logs list
