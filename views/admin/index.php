@@ -1,1 +1,1 @@
-Index page
+<div>Index page</div>

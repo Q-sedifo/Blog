@@ -21,22 +21,19 @@ class AdminController extends Controller
     public function logsAction()
     {
         // Getting logs list
-        $file = 'logs.txt';
-        if (file_exists($file)) {
-            $logs = explode('|', file_get_contents($file));
-            $fileSize = filesize($file);
-        }
+        $logs = $this->model->getLogs();
+        $logsSize = $this->model->getLogsSize();
 
         // Transfer data
         $vars = [
             'logs' => isset($logs) ? $logs : null,
-            'fileSize' => isset($fileSize) ? $fileSize : 0
+            'fileSize' => $logsSize ? $logsSize : 0
         ];
 
         $this->view->render('Logs story', $vars);
     }
 
-    public function clearLogsAction()
+    public function cleanLogsAction()
     {
         $file = 'logs.txt';
         if (file_exists($file)) unlink($file);

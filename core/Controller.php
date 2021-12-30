@@ -47,7 +47,7 @@ abstract class Controller
         $controller = $this->route['controller'];
         $action = $this->route['action'];
 
-        if ($controller == 'admin' && !isset($_SESSION['admin']) && $action != 'login') {
+        if ($controller == 'admin' && !isset($_SESSION['admin'])) {
             $this->view->redirect();
         }
     }

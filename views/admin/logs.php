@@ -1,7 +1,6 @@
-<strong>Logs history</strong>
-<div><a href="?controller=admin&action=clearLogs">Clear logs</a></div>
+<div><strong>Logs history</strong></div>
 <div>
-    <div>Filesize: <?= $fileSize?> bytes</div>
+    <div>Filesize: <?= $fileSize?> bytes <a href="?controller=admin&action=cleanLogs">Clear logs</a></div>
     <?php if ($logs): ?>
         <?php foreach ($logs as $log): ?>
             <div><?= $log ?></div>

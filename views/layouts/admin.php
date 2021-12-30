@@ -15,9 +15,9 @@
 </head>
 <body>
     <strong>Admin panel</strong>
-    <div><a href="/Blog">Home</a></div>
-    <div><a href="?controller=admin&action=logout">Logout</a></div>
-    <div><a href="?controller=admin&action=logs">Logs</a></div>
+    <a href="/Blog">Home</a>
+    <a href="?controller=admin&action=logout">Logout</a>
+    <a href="?controller=admin&action=logs">Logs</a>
     <?= $content; ?>
 </body>
 </html>
