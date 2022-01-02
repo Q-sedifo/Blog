@@ -1,49 +1,32 @@
 window.onload = () => {
-    message.checkMessage();
-}
 
-// Collect data function
-function collectData(form) {
-    const data = {};
-    const postData = form.querySelectorAll('input, textarea');
+    // Cheching out messages
+    message.checkMessage()
 
-    postData.forEach(e => {
-        data[e.name] = e.value.trim();
-    });
+    // Ajax requests
+    $('form').submit(function (event) {
 
-    return data;
-}
+        event.preventDefault()
 
-// Ajax requests
-function request(form) {
-    const data = collectData(form);
-
-    const btn = form.querySelectorAll('button');
-    const reload = form.getAttribute('reload');
-
-    $.ajax({
-        url: form.action,
-        type: form.method,
-        data: data,
-        dataType: 'json',
-        beforeSend: () => btn.forEach(e => e.disabled = true),
-        success: (data) => {
-            btn.forEach(e => e.disabled = false);
-            if (data['success']) {
-                if (reload) {
-                    message.saveMessage(data['message'], data['type']);
-                    location.reload();
+        $.ajax({
+            type: this.method,
+            url: this.action,
+            data: new FormData(this),
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: () => console.log('Sending...'),
+            success: (data) => {
+                const response = JSON.parse(data)
+                if (response['success']) {
+                    message.createMessage(response['message'], response['type'])
                 }
                 else {
-                    message.createMessage(data['message'], data['type']);
+                    message.createMessage(response['message'], response['type'])
                 }
-            }
-            else {
-                message.createMessage(data['message'], data['type']);
-            }
-        },
-        error: () => {
-            message.createMessage('Request error', 'error');
-        }
+            },
+            error: () => message.createMessage('Request error', 'error')
+        });
     });
+
 }

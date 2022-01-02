@@ -7,6 +7,6 @@
         <input type="password" name="password" placeholder="Password">
     </div>
     <div>
-        <input type="button" onclick="request(this.form)" value="Login">
+        <input type="submit" value="Login">
     </div>
 </form>

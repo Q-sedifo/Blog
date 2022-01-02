@@ -13,8 +13,7 @@ class IndexModel extends Model
 
     public function getPostsAmount()
     {
-        $result = $this->query->row('SELECT COUNT(id) as amount FROM posts');
-        return $result[0]['amount'];
+        return $this->query->column('SELECT COUNT(id) as amount FROM posts');
     }
 
     public function getAdminEmail()
