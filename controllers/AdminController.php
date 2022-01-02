@@ -9,27 +9,56 @@ class AdminController extends Controller
     {
         parent::__construct($route);
         $this->switchLayout($route['controller']);
-    }
+    } 
 
     public function IndexAction()
     {
         $posts = $this->model->getAllPosts();
+        $postsAmount = $this->model->getPostsAmount();
 
         // Transfering data
         $vars = [
-            'posts' => $posts
+            'posts' => $posts,
+            'postsAmount' => $postsAmount
         ];
 
         $this->view->render('Admin panel', $vars);
     }
-
+    
     public function editPostAction()
     {
         // Getting post id from Get
         $postId = isset($_GET['id']) ? intval($_GET['id']) : null;
-    
         $post = $this->model->getPostById($postId);
-        
+
+        // Verifying POST for getting data
+        if (!empty($_POST)) {
+            // Default value of post preview
+            $_POST['preview'] = empty($_FILES['image']['name']) ? $post['preview'] : trim($_FILES['image']['name']);
+
+            if ($this->model->postEditValidate($_POST)) {
+                // Processing image and path
+                $path = ImgPath . 'posts/';
+
+                // Checking for new image
+                if ($_POST['preview'] != $post['preview']) {
+                    $_POST['preview'] = $path . $_POST['preview'];
+
+                    // Removing image from directory and upload new one
+                    if (file_exists($post['preview'])) unlink($post['preview']);
+                    move_uploaded_file($_FILES['image']['tmp_name'], $path . $_FILES['image']['name']);
+                }
+
+                $this->model->postEdit($postId, $_POST);
+                $this->view->message('Post was edited successfully');
+            }
+            else {
+                $this->view->message($this->model->error, 'warning', false);
+            }
+            exit();
+        }
+
+        // If post was not found -> redirect page
         if (!$post) $this->view->redirect('?controller=admin');
 
         // Transfering data
@@ -37,6 +66,7 @@ class AdminController extends Controller
             'post' => $post
         ];
 
+        // Load page
         $this->view->render('Edit post', $vars);
     }
 
