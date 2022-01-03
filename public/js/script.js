@@ -8,6 +8,8 @@ window.onload = () => {
 
         event.preventDefault()
 
+        const btns = this.querySelectorAll('input')
+
         $.ajax({
             type: this.method,
             url: this.action,
@@ -15,14 +17,26 @@ window.onload = () => {
             cache: false,
             contentType: false,
             processData: false,
-            beforeSend: () => console.log('Sending...'),
+            beforeSend: () => btns.forEach(b => b.disabled = true),
             success: (data) => {
+                btns.forEach(b => b.disabled = false)
+
                 const response = JSON.parse(data)
-                if (response['success']) {
-                    message.createMessage(response['message'], response['type'])
+
+                const text = response['message']
+                const type = response['type']
+                const success = response['success']
+                const href = response['href']
+
+                if (success) {
+                    if (href) {
+                        message.saveMessage(text, type)
+                        location.href = href;
+                    }
+                    else message.createMessage(text, type)
                 }
                 else {
-                    message.createMessage(response['message'], response['type'])
+                    message.createMessage(text, type)
                 }
             },
             error: () => message.createMessage('Request error', 'error')

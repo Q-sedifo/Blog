@@ -38,11 +38,12 @@ class View
         exit();
     }
 
-    public function message($message, $type = 'success', $success = true)
+    public function reply($message, $type = 'success', $success = true, $href = false)
     {
         $data['success'] = $success;
         $data['type'] = $type;
         $data['message'] = $message;
+        $data['href'] = $href;
 
         echo json_encode($data);
     }

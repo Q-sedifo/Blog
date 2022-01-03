@@ -50,10 +50,10 @@ class AdminController extends Controller
                 }
 
                 $this->model->postEdit($postId, $_POST);
-                $this->view->message('Post was edited successfully');
+                $this->view->reply('Post was edited successfully', 'success', true, '?controller=admin');
             }
             else {
-                $this->view->message($this->model->error, 'warning', false);
+                $this->view->reply($this->model->error, 'warning', false);
             }
             exit();
         }

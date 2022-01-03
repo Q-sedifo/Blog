@@ -40,15 +40,15 @@ class IndexController extends Controller
         if (!empty($_POST)) {
             if ($this->model->contactValidate($_POST)) {
                 $adminEmail = $this->model->getAdminEmail();
-
+               
                 // Send message on email
                 mail($adminEmail, 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
 
                 // Show message
-                $this->view->message('Message sent successfully');
+                $this->view->reply('Message sent successfully', 'success', true, '?controller=index');
             }
             else {
-                $this->view->message($this->model->error, 'error', false);
+                $this->view->reply($this->model->error, 'error', false);
             }
             exit();
         }
@@ -78,10 +78,10 @@ class IndexController extends Controller
 
                 // Login, create session and inform
                 $_SESSION['admin'] = $adminData;
-                $this->view->message('You logged in');
+                $this->view->reply('You logged in', 'success', true, '?controller=admin');
             }
             else {
-                $this->view->message($this->model->error, 'error', false);
+                $this->view->reply($this->model->error, 'error', false);
             }
             exit();
         }
