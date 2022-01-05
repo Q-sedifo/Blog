@@ -13,11 +13,6 @@ class AdminModel extends model
         }
     }
 
-    public function getLogsSize()
-    {
-        if (file_exists(PathLogs)) return filesize(PathLogs);
-    }
-
     public function getAllPosts()
     {
         return $this->query->row('SELECT * from posts ORDER BY datatime DESC');
@@ -35,10 +30,19 @@ class AdminModel extends model
         return $post;
     }
 
-    public function postValidate($post)
+    public function getPostId()
     {
-        global $imgTypes; // Permissible types of image
-       
+        return $this->query->column("SELECT MAX(id) FROM posts");
+    }
+
+    public function updatePostPreview($id)
+    {
+        $preview = PostImgPath . $id . '.jpg';
+        return $this->query->row("UPDATE posts SET preview = '$preview' WHERE id = $id");
+    }
+
+    public function postValidate($post, $type)
+    {  
         $title = iconv_strlen(trim($post['title']));
         $description = iconv_strlen(trim($post['description']));
 
@@ -54,7 +58,7 @@ class AdminModel extends model
             $this->error = 'Description must contain from 20 to 1000 letters';
         }
 
-        if (empty($post['preview'])) {
+        else if ($type == 'add' && empty($_FILES['image']['tmp_name'])) {
             $this->error = 'Insert image';
         }
 
@@ -71,6 +75,16 @@ class AdminModel extends model
         $this->query->row("UPDATE posts SET title = '$title', descript = '$desc', preview = '$preview' WHERE id = $post_id");
         return true;
     }   
+
+    public function addPost($post)
+    {
+        $title = htmlentities(trim($post['title']));
+        $desc = htmlentities(trim($post['description']));
+        $preview = htmlentities(trim($post['preview']));
+        
+        $this->query->row("INSERT INTO posts (title, descript, preview) VALUES('$title', '$desc', '$preview')");
+        return true;
+    }
 
     public function uploadFile($path, $file) 
     {
