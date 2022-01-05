@@ -1,6 +1,6 @@
 <?php
 
-use core\controller;
+use core\Controller;
 
 class AdminController extends Controller
 {
@@ -29,26 +29,25 @@ class AdminController extends Controller
     {
         // Getting post id from Get
         $postId = isset($_GET['id']) ? intval($_GET['id']) : null;
+        // Getting post id from GET
         $post = $this->model->getPostById($postId);
 
         // Verifying POST for getting data
         if (!empty($_POST)) {
             // Default value of post preview
             $_POST['preview'] = empty($_FILES['image']['name']) ? $post['preview'] : trim($_FILES['image']['name']);
-
-            if ($this->model->postEditValidate($_POST)) {
-                // Processing image and path
-                $path = ImgPath . 'posts/';
+            
+            if ($this->model->postValidate($_POST)) {
 
                 // Checking for new image
-                if ($_POST['preview'] != $post['preview']) {
-                    $_POST['preview'] = $path . $_POST['preview'];
-
-                    // Removing image from directory and upload new one
+                if (!empty($_FILES['image']['tmp_name'])) {
+                    // Replace image
                     if (file_exists($post['preview'])) unlink($post['preview']);
-                    move_uploaded_file($_FILES['image']['tmp_name'], $path . $_FILES['image']['name']);
+                    $this->model->uploadFile($_FILES['image']['tmp_name'], $postId);
+                    $_POST['preview'] = PostImgPath . $postId . '.jpg';
                 }
-
+                
+                // Save changes in db
                 $this->model->postEdit($postId, $_POST);
                 $this->view->reply('Post was edited successfully', 'success', true, '?controller=admin');
             }
@@ -61,7 +60,6 @@ class AdminController extends Controller
         // If post was not found -> redirect page
         if (!$post) $this->view->redirect('?controller=admin');
 
-        // Transfering data
         $vars = [
             'post' => $post
         ];

@@ -10,7 +10,7 @@ class IndexController extends Controller
         // Page control
         $page_params = [
             'page' => isset($_GET['page']) ? intval($_GET['page']) : 1,
-            'postsLimit' => 3
+            'postsLimit' => PostsLimit
         ];
         extract($page_params);
         
@@ -39,12 +39,12 @@ class IndexController extends Controller
     {
         if (!empty($_POST)) {
             if ($this->model->contactValidate($_POST)) {
-                $adminEmail = $this->model->getAdminEmail();
+                $email = $this->model->getAdminEmail();
                
                 // Send message on email
-                mail($adminEmail, 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
+                mail($email, 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
 
-                // Show message
+                // Inform user for successfully sending
                 $this->view->reply('Message sent successfully', 'success', true, '?controller=index');
             }
             else {
@@ -53,6 +53,7 @@ class IndexController extends Controller
             exit();
         }
 
+        // Render contact page
         $this->view->render('Contact');
     }
 

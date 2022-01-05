@@ -7,7 +7,7 @@ class AdminModel extends model
 
     public function getLogs()
     {
-        $file = 'logs.txt';
+        $file = PathLogs;
         if (file_exists($file)) {
             return $logs = array_reverse(explode('|', file_get_contents($file)));
         }
@@ -15,7 +15,7 @@ class AdminModel extends model
 
     public function getLogsSize()
     {
-        if (file_exists('logs.txt')) return filesize('logs.txt');
+        if (file_exists(PathLogs)) return filesize(PathLogs);
     }
 
     public function getAllPosts()
@@ -35,13 +35,12 @@ class AdminModel extends model
         return $post;
     }
 
-    public function postEditValidate($post)
+    public function postValidate($post)
     {
         global $imgTypes; // Permissible types of image
        
         $title = iconv_strlen(trim($post['title']));
         $description = iconv_strlen(trim($post['description']));
-        $previewType = explode('.', $post['preview']);
 
         if ($title == 0 || $description == 0) {
             $this->error = 'Fill all fields';
@@ -53,11 +52,6 @@ class AdminModel extends model
 
         else if ($description < 20 || $description > 1000) {
             $this->error = 'Description must contain from 20 to 1000 letters';
-        }
-
-        // Cheching file for type
-        if (!in_array(end($previewType), $imgTypes)) {
-            $this->error = 'Incorrect image type';
         }
 
         if (empty($post['preview'])) {
@@ -75,8 +69,12 @@ class AdminModel extends model
         $preview = htmlentities(trim($post['preview']));
         
         $this->query->row("UPDATE posts SET title = '$title', descript = '$desc', preview = '$preview' WHERE id = $post_id");
-        
         return true;
     }   
+
+    public function uploadFile($path, $file) 
+    {
+        move_uploaded_file($path, PostImgPath . $file . '.jpg');
+    }
 
 }
