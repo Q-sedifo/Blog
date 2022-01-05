@@ -36,10 +36,7 @@ class AdminController extends Controller
                 $this->model->uploadFile($_FILES['image']['tmp_name'], $postId);
                 $this->view->reply('The post was added successfully', 'success', true, '?controller=admin');
             } 
-            else {
-                $this->view->reply($this->model->error, 'error', false);
-            }
-            exit();
+            $this->view->reply($this->model->error, 'error', false);
         }
 
         $this->view->render('Add post');
@@ -69,10 +66,8 @@ class AdminController extends Controller
                 $this->model->postEdit($postId, $_POST);
                 $this->view->reply('Post was edited successfully', 'success', true, '?controller=admin');
             }
-            else {
-                $this->view->reply($this->model->error, 'warning', false);
-            }
-            exit();
+            
+            $this->view->reply($this->model->error, 'warning', false);
         }
 
         // If post was not found -> redirect page

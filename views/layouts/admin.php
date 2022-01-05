@@ -18,6 +18,7 @@
     <a href="/Blog">Home</a>
     <a href="?controller=admin&action=logout">Logout</a>
     <a href="?controller=admin&action=logs">Logs</a>
+    <a href="?controller=admin&action=addPost">Add post</a>
     <?= $content; ?>
 </body>
 </html>

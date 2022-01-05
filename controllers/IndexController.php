@@ -47,10 +47,8 @@ class IndexController extends Controller
                 // Inform user for successfully sending
                 $this->view->reply('Message sent successfully', 'success', true, '?controller=index');
             }
-            else {
-                $this->view->reply($this->model->error, 'error', false);
-            }
-            exit();
+            
+            $this->view->reply($this->model->error, 'error', false);
         }
 
         // Render contact page
@@ -73,7 +71,7 @@ class IndexController extends Controller
                 $ip = $_SERVER['REMOTE_ADDR'];
                 date_default_timezone_set('Europe/Kiev');
 
-                $logs = fopen('logs.txt', 'a');
+                $logs = fopen(PathLogs, 'a');
                 fwrite($logs, $ip . '[' . date('Y-m-d, H:i') . ']' . '|');
                 fclose($logs);
 
@@ -81,10 +79,8 @@ class IndexController extends Controller
                 $_SESSION['admin'] = $adminData;
                 $this->view->reply('You logged in', 'success', true, '?controller=admin');
             }
-            else {
-                $this->view->reply($this->model->error, 'error', false);
-            }
-            exit();
+            
+            $this->view->reply($this->model->error, 'error', false);
         }
 
         $this->view->render('Login');

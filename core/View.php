@@ -46,6 +46,7 @@ class View
         $data['href'] = $href;
 
         echo json_encode($data);
+        exit();
     }
 
     public function redirect($url = '/Blog')
