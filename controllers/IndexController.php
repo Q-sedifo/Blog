@@ -20,9 +20,9 @@ class IndexController extends Controller
         $postsAmount = $this->model->getPostsAmount();
         
         // Pagination
-        $pagesAmount = ceil($postsAmount / $postsLimit);
-
-        if ($page > $pagesAmount || $page <= 0) $this->view->redirect();
+        $pagesAmount = empty($postsAmount) ? 1 : ceil($postsAmount / $postsLimit);
+        
+        if ($page > $pagesAmount || $page < 0) $this->view->redirect();
 
         // Transfering data
         $vars = [
