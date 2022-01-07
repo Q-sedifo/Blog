@@ -19,6 +19,7 @@
     <a href="?controller=admin&action=logout">Logout</a>
     <a href="?controller=admin&action=logs">Logs</a>
     <a href="?controller=admin&action=addPost">Add post</a>
+    <a href="?controller=admin&action=profile">Profile</a>
     <?= $content; ?>
 </body>
 </html>

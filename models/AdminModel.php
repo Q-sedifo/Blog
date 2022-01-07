@@ -66,6 +66,28 @@ class AdminModel extends model
         else return true;
     }
 
+    public function adminDataValidate($post)
+    {
+        $name = iconv_strlen(trim($post['name']));
+        $email = trim($post['email']);
+        $bio = iconv_strlen(trim($post['bio']));
+
+        if ($name <= 0 || $name > 32) {
+            $this->error = 'Incorrect name';
+        }
+
+        else if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->error = 'Incorrect email';
+        }
+
+        else if ($bio <= 10 || $bio > 1000) {
+            $this->error = 'Bio must contain from 10 to 1000 letters';
+        }
+
+        if ($this->error) return false;
+        else return true;
+    }
+
     public function postEdit($post_id, $post)
     {
         $title = htmlentities(trim($post['title']));
@@ -83,6 +105,28 @@ class AdminModel extends model
         $preview = htmlentities(trim($post['preview']));
         
         $this->query->row("INSERT INTO posts (title, descript, preview) VALUES('$title', '$desc', '$preview')");
+        return true;
+    }
+
+    public function saveData($post)
+    {   
+        $post['ava'] = AvatarImgPath . 'jpg';
+        $post['background'] = BackgroundImgPath . 'jpg';
+        if (!empty($_FILES['ava']['tmp_name'])) {
+            move_uploaded_file($_FILES['ava']['tmp_name'], $post['ava']);
+        }
+        else if (!empty($_FILES['background']['tmp_name'])) {
+            move_uploaded_file($_FILES['background']['tmp_name'], $post['background']);
+        }
+
+        $file = file_get_contents('config/adminData.json');
+        $data = json_decode($file, true);
+
+        foreach ($post as $key => $value) {
+            $data[$key] = trim($value);
+        }
+
+        file_put_contents('config/adminData.json', json_encode($data));
         return true;
     }
 

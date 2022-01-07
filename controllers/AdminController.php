@@ -81,6 +81,25 @@ class AdminController extends Controller
         $this->view->render('Edit post', $vars);
     }
 
+    public function profileAction()
+    {
+        if (!empty($_POST)) {
+            if ($this->model->adminDataValidate($_POST)) {
+                $this->model->saveData($_POST);
+                $this->view->reply('Data changed successfully', 'success', true, '?controller=admin&action=profile');
+            }
+            $this->view->reply($this->model->error, 'error', false);
+        }
+
+        $data = $this->model->getAdminData();
+        
+        $vars = [
+            'data' => $data
+        ];
+
+        $this->view->render('Profile', $vars);
+    }
+
     public function logsAction()
     {
         // Getting logs list

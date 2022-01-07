@@ -16,6 +16,9 @@ define('ImgPath', 'public/images/');
 define('PostImgPath', ImgPath . 'posts/');
 define('DataImgPath', ImgPath . 'data/');
 
+define('AvatarImgPath', DataImgPath . 'ava.');
+define('BackgroundImgPath', DataImgPath . 'background.');
+
 // Acceptable types of file
 return $imgTypes = [
     'jpeg', 'jpg', 'png', 'gif' 
