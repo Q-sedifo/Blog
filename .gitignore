@@ -2,5 +2,7 @@
 public/images/
 
 #files
+config/data.php
+config/adminData.json
 library/notification/README.md
 logs.txt

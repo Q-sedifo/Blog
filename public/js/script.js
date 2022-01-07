@@ -8,7 +8,7 @@ window.onload = () => {
 
         event.preventDefault()
 
-        const btns = this.querySelectorAll('input')
+        const btns = this.querySelectorAll('input, textarea')
 
         $.ajax({
             type: this.method,

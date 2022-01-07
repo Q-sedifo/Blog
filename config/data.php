@@ -11,6 +11,6 @@ return [
     'email' => $data['email'],
     'password' => $data['password'],
     'bio' => $data['bio'],
-    'img' => $data['img'],
+    'ava' => $data['ava'],
     'background' => $data['background']
 ];
