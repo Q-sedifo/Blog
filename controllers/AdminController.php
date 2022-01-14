@@ -15,7 +15,7 @@ class AdminController extends Controller
     {
         $posts = $this->model->getAllPosts();
         $postsAmount = $this->model->getPostsAmount();
-
+        
         // Transfering data
         $vars = [
             'posts' => $posts,
@@ -29,11 +29,9 @@ class AdminController extends Controller
     {
         if (!empty($_POST)) {
             if ($this->model->postValidate($_POST, 'add')) {
-                $_POST['preview'] = '...';
-                $this->model->addPost($_POST);
-                $postId = $this->model->getPostId();
-                $this->model->updatePostPreview($postId);
-                $this->model->uploadFile($_FILES['image']['tmp_name'], $postId);
+                $this->model->postAdd($_POST);
+                $postId = $this->model->getLastPostId();
+                $this->model->postUpdatePreview($postId);
                 $this->view->reply('The post was added successfully', 'success', true, '?controller=admin');
             } 
             $this->view->reply($this->model->error, 'error', false);
@@ -54,20 +52,13 @@ class AdminController extends Controller
             $_POST['preview'] = empty($_FILES['image']['name']) ? $post['preview'] : trim($_FILES['image']['name']);
 
             if ($this->model->postValidate($_POST, 'edit')) {
-                // Checking for new image
-                if (!empty($_FILES['image']['tmp_name'])) {
-                    // Replace image
-                    if (file_exists($post['preview'])) unlink($post['preview']);
-                    $this->model->uploadFile($_FILES['image']['tmp_name'], $postId);
-                    $_POST['preview'] = PostImgPath . $postId . '.jpg';
-                }
-                
-                // Save changes in db
-                $this->model->postEdit($postId, $_POST);
+                // Previous preview for replacing image
+                $_POST['pre_preview'] = !empty($_FILES['image']['name']) ? $post['preview'] : null;
+                $this->model->postUpdate($postId, $_POST);
                 $this->view->reply('Post was edited successfully', 'success', true, '?controller=admin');
             }
             
-            $this->view->reply($this->model->error, 'warning', false);
+            $this->view->reply($this->model->error, 'error', false);
         }
 
         // If post was not found -> redirect page
@@ -83,15 +74,18 @@ class AdminController extends Controller
 
     public function profileAction()
     {
+        $data = $this->model->getAdminData();
+
         if (!empty($_POST)) {
             if ($this->model->adminDataValidate($_POST)) {
+                $_POST['pre_ava'] = $data['ava'];
+                $_POST['pre_background'] = $data['background'];
+
                 $this->model->saveData($_POST);
                 $this->view->reply('Data changed successfully', 'success', true, '?controller=admin&action=profile');
             }
             $this->view->reply($this->model->error, 'error', false);
         }
-
-        $data = $this->model->getAdminData();
         
         $vars = [
             'data' => $data
@@ -102,30 +96,19 @@ class AdminController extends Controller
 
     public function logsAction()
     {
-        // Getting logs list
         $logs = $this->model->getLogs();
-        $logsSize = file_exists(PathLogs) ? filesize(PathLogs) : 0;
 
-        // Transfer data
         $vars = [
-            'logs' => isset($logs) ? $logs : null,
-            'fileSize' => $logsSize
+            'logs' => isset($logs) ? $logs : null
         ];
 
         $this->view->render('Logs story', $vars);
-    }
-
-    public function cleanLogsAction()
-    {
-        if (file_exists(PathLogs)) unlink(PathLogs);
-        $this->view->redirect('?controller=admin&action=logs');
     }
 
     public function logoutAction()
     {
         // Remove session 
         if (isset($_SESSION['admin'])) unset($_SESSION['admin']);
-
         // Redirect page
         $this->view->redirect();
     }

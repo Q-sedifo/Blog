@@ -19,7 +19,10 @@ define('DataImgPath', ImgPath . 'data/');
 define('AvatarImgPath', DataImgPath . 'ava.');
 define('BackgroundImgPath', DataImgPath . 'background.');
 
+// Timezone
+date_default_timezone_set('Europe/Kiev');
+
 // Acceptable types of file
-return $imgTypes = [
+$imgTypes = [
     'jpeg', 'jpg', 'png', 'gif' 
 ];

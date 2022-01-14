@@ -42,7 +42,7 @@ class IndexModel extends Model
        
         // Errors checking
         if ($this->error) return false;
-        else return true;
+            else return true;
     }
 
     public function loginValidate($post)
@@ -62,7 +62,16 @@ class IndexModel extends Model
         }
 
         if ($this->error) return false;
-        else return true;
+            else return true;
+    }
+
+    public function saveLog()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        
+        $logs = file_get_contents(PathLogs);
+        $logs .= $ip . '[' . date('Y-m-d, H:i') . ']' . '|';
+        file_put_contents(PathLogs, $logs);
     }
 
 }

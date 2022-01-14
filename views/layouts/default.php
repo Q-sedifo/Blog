@@ -14,6 +14,8 @@
     <title>Blog | <?= $title; ?></title>
 </head>
 <body>
-    <?= $content; ?>
+    <main>
+        <?= $content; ?>
+    </main>
 </body>
 </html>

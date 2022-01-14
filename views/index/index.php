@@ -3,11 +3,13 @@
     <?php foreach ($posts as $post): ?>
         <div><?= $post['title']; ?></div>
     <?php endforeach; ?>
-    <div>
-        <?php for ($p = 1; $p <= $pagesAmount; $p++): ?>
-            <a href="?page=<?= $p; ?>"><?= $p; ?></a>
-        <?php endfor; ?>
-    <div>
+    <?php if ($postsAmount > 3): ?>
+        <div>
+            <?php for ($p = 1; $p <= $pagesAmount; $p++): ?>
+                <a href="?page=<?= $p; ?>"><?= $p; ?></a>
+            <?php endfor; ?>
+        <div>
+    <?php endif; ?>
 <?php else: ?>
     <div>No posts</div>
 <?php endif; ?>

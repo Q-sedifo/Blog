@@ -44,8 +44,7 @@ class IndexController extends Controller
                 // Send message on email
                 mail($email, 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
 
-                // Inform user for successfully sending
-                $this->view->reply('Message sent successfully', 'success', true, '?controller=index');
+                $this->view->reply('Message sent successfully', 'success', true);
             }
             
             $this->view->reply($this->model->error, 'error', false);
@@ -68,12 +67,7 @@ class IndexController extends Controller
                 $adminData = $this->model->getAdminData(true);
 
                 // Fix logs with ip and date
-                $ip = $_SERVER['REMOTE_ADDR'];
-                date_default_timezone_set('Europe/Kiev');
-
-                $logs = fopen(PathLogs, 'a');
-                fwrite($logs, $ip . '[' . date('Y-m-d, H:i') . ']' . '|');
-                fclose($logs);
+                $this->model->saveLog();
 
                 // Login, create session and inform
                 $_SESSION['admin'] = $adminData;
