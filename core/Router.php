@@ -7,6 +7,20 @@ use core\View;
 class Router 
 {
     public $route;
+    static private $_instance;
+
+    private function __construct() {}
+    private function __clone() {}
+
+    // Singleton pattern
+    static public function getInstance()
+    {
+        if (self::$_instance instanceof self) {
+            return self::$_instance;
+        }
+
+        return self::$_instance = new self;
+    }
 
     public function run() 
     {

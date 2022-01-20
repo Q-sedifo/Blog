@@ -23,5 +23,5 @@ spl_autoload_register(function($class) {
 });
 
 // Starting router
-$router = new Router;
+$router = Router::getInstance();
 $router->run();
