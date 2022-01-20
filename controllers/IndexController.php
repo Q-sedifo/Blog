@@ -1,6 +1,8 @@
 <?php
 
 use core\Controller;
+use services\validators\LoginValidator;
+use services\validators\ContactValidator;
 
 class IndexController extends Controller
 {
@@ -16,14 +18,14 @@ class IndexController extends Controller
         
         // Getting data from db
         $adminData = $this->model->getAdminData();
-        $posts = $this->model->getPosts($postsLimit, $page);
+        $posts = $this->model->getPosts($postsLimit, $page); 
         $postsAmount = $this->model->getPostsAmount();
         
-        // Pagination
+        // Pagination    
         $pagesAmount = empty($postsAmount) ? 1 : ceil($postsAmount / $postsLimit);
         
         if ($page > $pagesAmount || $page < 0) $this->view->redirect();
-
+    
         // Transfering data
         $vars = [
             'adminData' => $adminData,
@@ -38,16 +40,17 @@ class IndexController extends Controller
     public function contactAction()
     {
         if (!empty($_POST)) {
-            if ($this->model->contactValidate($_POST)) {
-                $email = $this->model->getAdminEmail();
-               
-                // Send message on email
-                mail($email, 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
+            $form = new ContactValidator($_POST);
 
-                $this->view->reply('Message sent successfully', 'success', true);
+            if ($form->checkError()) {
+                $adminData = $this->model->getAdminData();
+                // Send message on email
+                mail($adminData['email'], 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
+
+                $this->view->reply('Message sent', 'success', true);
             }
             
-            $this->view->reply($this->model->error, 'error', false);
+            $this->view->reply($form->getError(), 'error', false);
         }
 
         // Render contact page
@@ -63,18 +66,19 @@ class IndexController extends Controller
 
         // Login function
         if (!empty($_POST)) {
-            if ($this->model->loginValidate($_POST)) {
-                $adminData = $this->model->getAdminData(true);
+            $form = new LoginValidator($_POST);
 
+            if ($form->checkError()) {
+                $admin = $this->model->getAdminData();
                 // Fix logs with ip and date
                 $this->model->saveLog();
-
                 // Login, create session and inform
-                $_SESSION['admin'] = $adminData;
+                $_SESSION['admin'] = $admin;
+
                 $this->view->reply('You logged in', 'success', true, '?controller=admin');
-            }
+            } 
             
-            $this->view->reply($this->model->error, 'error', false);
+            $this->view->reply($form->getError(), 'error', false);
         }
 
         $this->view->render('Login');

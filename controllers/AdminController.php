@@ -1,6 +1,8 @@
 <?php
 
 use core\Controller;
+use services\validators\PostValidator;
+use services\validators\ProfileValidator;
 
 class AdminController extends Controller
 {
@@ -28,13 +30,17 @@ class AdminController extends Controller
     public function addPostAction()
     {
         if (!empty($_POST)) {
-            if ($this->model->postValidate($_POST, 'add')) {
+            $form = new PostValidator($_POST, 'add');
+
+            if ($form->checkError()) {
                 $this->model->postAdd($_POST);
                 $postId = $this->model->getLastPostId();
                 $this->model->postUpdatePreview($postId);
-                $this->view->reply('The post was added successfully', 'success', true, '?controller=admin');
-            } 
-            $this->view->reply($this->model->error, 'error', false);
+
+                $this->view->reply('Post added', 'success', true, '?controller=admin');
+            }
+
+            $this->view->reply($form->getError(), 'error', false);
         }
 
         $this->view->render('Add post');
@@ -50,15 +56,16 @@ class AdminController extends Controller
         if (!empty($_POST)) {
             // Default value of post preview
             $_POST['preview'] = empty($_FILES['image']['name']) ? $post['preview'] : trim($_FILES['image']['name']);
+            $form = new PostValidator($_POST, 'edit');
 
-            if ($this->model->postValidate($_POST, 'edit')) {
+            if ($form->checkError()) {
                 // Previous preview for replacing image
                 $_POST['pre_preview'] = !empty($_FILES['image']['name']) ? $post['preview'] : null;
                 $this->model->postUpdate($postId, $_POST);
-                $this->view->reply('Post was edited successfully', 'success', true, '?controller=admin');
+                $this->view->reply('Post edited', 'success', true, '?controller=admin');
             }
             
-            $this->view->reply($this->model->error, 'error', false);
+            $this->view->reply($form->getError(), 'error', false);
         }
 
         // If post was not found -> redirect page
@@ -77,14 +84,17 @@ class AdminController extends Controller
         $data = $this->model->getAdminData();
 
         if (!empty($_POST)) {
-            if ($this->model->adminDataValidate($_POST)) {
+            $form = new ProfileValidator($_POST);
+
+            if ($form->checkError()) {
                 $_POST['pre_ava'] = $data['ava'];
                 $_POST['pre_background'] = $data['background'];
 
                 $this->model->saveData($_POST);
-                $this->view->reply('Data changed successfully', 'success', true, '?controller=admin&action=profile');
+                $this->view->reply('Data changed', 'success', true, '?controller=admin&action=profile');
             }
-            $this->view->reply($this->model->error, 'error', false);
+            
+            $this->view->reply($form->getError(), 'error', false);
         }
         
         $vars = [
