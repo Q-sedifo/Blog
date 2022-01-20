@@ -1,8 +1,7 @@
 <?php
 
 use core\Controller;
-use services\validators\LoginValidator;
-use services\validators\ContactValidator;
+use services\validators\factory\ValidatorsFactory;
 
 class IndexController extends Controller
 {
@@ -40,7 +39,7 @@ class IndexController extends Controller
     public function contactAction()
     {
         if (!empty($_POST)) {
-            $form = new ContactValidator($_POST);
+            $form = ValidatorsFactory::create('contact');
 
             if ($form->checkError()) {
                 $adminData = $this->model->getAdminData();
@@ -66,7 +65,7 @@ class IndexController extends Controller
 
         // Login function
         if (!empty($_POST)) {
-            $form = new LoginValidator($_POST);
+            $form = ValidatorsFactory::create('login');
 
             if ($form->checkError()) {
                 $admin = $this->model->getAdminData();

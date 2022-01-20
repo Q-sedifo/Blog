@@ -1,8 +1,7 @@
 <?php
 
 use core\Controller;
-use services\validators\PostValidator;
-use services\validators\ProfileValidator;
+use services\validators\factory\ValidatorsFactory;
 
 class AdminController extends Controller
 {
@@ -30,7 +29,7 @@ class AdminController extends Controller
     public function addPostAction()
     {
         if (!empty($_POST)) {
-            $form = new PostValidator($_POST, 'add');
+            $form = ValidatorsFactory::create('post', 'add');
 
             if ($form->checkError()) {
                 $this->model->postAdd($_POST);
@@ -56,7 +55,7 @@ class AdminController extends Controller
         if (!empty($_POST)) {
             // Default value of post preview
             $_POST['preview'] = empty($_FILES['image']['name']) ? $post['preview'] : trim($_FILES['image']['name']);
-            $form = new PostValidator($_POST, 'edit');
+            $form = ValidatorsFactory::create('post', 'edit');
 
             if ($form->checkError()) {
                 // Previous preview for replacing image
@@ -84,7 +83,7 @@ class AdminController extends Controller
         $data = $this->model->getAdminData();
 
         if (!empty($_POST)) {
-            $form = new ProfileValidator($_POST);
+            $form = ValidatorsFactory::create('profile');
 
             if ($form->checkError()) {
                 $_POST['pre_ava'] = $data['ava'];
