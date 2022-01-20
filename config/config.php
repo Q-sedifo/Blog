@@ -5,7 +5,6 @@ define('PathPrefix', 'controllers/');
 define('PathPostfix', '.php');
 
 // Define data path constants
-define('AdminData', 'config/data.php');
 define('PathLogs', 'logs.txt');
 
 // Page settings

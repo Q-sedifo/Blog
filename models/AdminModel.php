@@ -35,66 +35,6 @@ class AdminModel extends Model
         return $this->query->column("SELECT MAX(id) FROM posts");
     }
 
-    public function postValidate($post, $type)
-    {  
-        $title = iconv_strlen($post['title']);
-        $description = iconv_strlen($post['description']);
-        $image = !empty($_FILES['image']['name']) ? $_FILES['image']['name'] : null;
-
-        if ($title == 0 || $description == 0) {
-            $this->error = 'Fill all fields';
-        }
-        else if ($title < 5 || $title > 62) {
-            $this->error = 'Title must contain from 5 to 62 letters';
-        }
-        else if ($description < 20 || $description > 1000) {
-            $this->error = 'Description must contain from 20 to 1000 letters';
-        }
-        else if ($type == 'add' && empty($_FILES['image']['tmp_name'])) {
-            $this->error = 'Insert image';
-        }
-        else if ($image) {
-            if (!ImageService::imgTypeValidate($image)) {
-                $this->error = 'Incorrect image type';
-            }
-        }
-
-        if ($this->error) return false;
-            else return true;
-    }
-
-    public function adminDataValidate($post)
-    {
-        $name = iconv_strlen($post['name']);
-        $email = $post['email'];
-        $bio = iconv_strlen($post['bio']);
-        $ava = $_FILES['ava']['name'];
-        $background = $_FILES['background']['name'];
-
-        if ($name <= 0 || $name > 32) {
-            $this->error = 'Incorrect name';
-        }
-        else if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->error = 'Incorrect email';
-        }
-        else if ($bio <= 10 || $bio > 1000) {
-            $this->error = 'Bio must contain from 10 to 1000 letters';
-        } 
-        if ($ava) {
-            if (!ImageService::imgTypeValidate($ava)) {
-                $this->error = 'Incorrect ava image type';
-            }
-        }
-        if ($background) {
-            if (!ImageService::imgTypeValidate($background)) {
-                $this->error = 'Incorrect background image type';
-            }
-        }
-
-        if ($this->error) return false;
-            else return true;
-    }
-
     public function postUpdate($post_id, $post)
     {
         $title = htmlentities(trim($post['title']));
@@ -141,6 +81,9 @@ class AdminModel extends Model
             move_uploaded_file($_FILES['background']['tmp_name'], $post['background']);
         }
 
+        unset($post['pre_ava']);
+        unset($post['pre_background']);
+
         // Change data
         $file = file_get_contents('config/adminData.json');
         $data = json_decode($file, true);
@@ -161,6 +104,11 @@ class AdminModel extends Model
         // Load image for post
         move_uploaded_file($_FILES['image']['tmp_name'], $preview);
         return $this->query->row("UPDATE posts SET preview = '$preview' WHERE id = $postId");
+    }
+
+    public function getAdminData()
+    {
+        return $this->data->getData();
     }
 
 }

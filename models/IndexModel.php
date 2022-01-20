@@ -16,55 +16,6 @@ class IndexModel extends Model
         return $this->query->column('SELECT COUNT(id) as amount FROM posts');
     }
 
-    public function getAdminEmail()
-    {
-        $data = $this->getAdminData();
-        return $data['email'];
-    }
-
-    public function contactValidate($post)
-    {
-        $name = iconv_strlen($post['name']);
-        $message = iconv_strlen($post['message']);
-        $email = $post['email'];
-        
-        if ($name < 2 || $name > 32) {
-            $this->error = 'Input correct name';
-        }
-
-        else if ($message < 5 || $message > 400) {
-            $this->error = 'Message must contain more than 5 and less than 400 letters';
-        }
-        
-        else if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->error = 'Incorrect email, try again';
-        }
-       
-        // Errors checking
-        if ($this->error) return false;
-            else return true;
-    }
-
-    public function loginValidate($post)
-    {
-        // Getting admin data for verifying 
-        $adminData = $this->getAdminData(true);
-
-        $login = $post['login'];
-        $password = $post['password'];
-
-        if (iconv_strlen($login) <= 0 || iconv_strlen($password) <= 0) {
-            $this->error = 'Fill all fields';
-        }
-
-        else if ($login != 'admin' || !password_verify($password, $adminData['password'])) {
-            $this->error = 'Incorrect login or password';
-        }
-
-        if ($this->error) return false;
-            else return true;
-    }
-
     public function saveLog()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
@@ -72,6 +23,11 @@ class IndexModel extends Model
         $logs = file_get_contents(PathLogs);
         $logs .= $ip . '[' . date('Y-m-d, H:i') . ']' . '|';
         file_put_contents(PathLogs, $logs);
+    }
+
+    public function getAdminData()
+    {
+        return $this->data->getData();
     }
 
 }
