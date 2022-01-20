@@ -6,7 +6,8 @@ use core\Db;
 use PDO;
 
 class QueryBuilder extends Db
-{
+{ 
+
     private function query($sql, $params = [])
     {
         $stmt = $this->db->prepare($sql);
