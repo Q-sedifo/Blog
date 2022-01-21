@@ -1,7 +1,7 @@
 <?php print_r($adminData); ?>
 <?php if ($posts): ?>
     <?php foreach ($posts as $post): ?>
-        <div><?= $post['title']; ?></div>
+        <div><?= $post['title']; ?><a href="?action=post&id=<?= $post['id']; ?>">></a></div>
     <?php endforeach; ?>
     <?php if ($postsAmount > 3): ?>
         <div>

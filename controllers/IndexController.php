@@ -36,6 +36,20 @@ class IndexController extends Controller
         $this->view->render($adminData['name'], $vars);
     }
 
+    public function postAction()
+    {
+        $postId = isset($_GET['id']) ? intval($_GET['id']) : null;
+        $post = $this->model->getPostById($postId);
+
+        if (!$post) $this->view->redirect();
+
+        $vars = [
+            'post' => $post
+        ];
+        
+        $this->view->render($post['title'], $vars);
+    }
+
     public function contactAction()
     {
         if (!empty($_POST)) {

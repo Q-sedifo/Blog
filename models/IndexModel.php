@@ -16,6 +16,12 @@ class IndexModel extends Model
         return $this->query->column('SELECT COUNT(id) as amount FROM posts');
     }
 
+    public function getPostById($id)
+    {
+        $post = $this->query->row("SELECT * FROM posts WHERE id = $id");
+        return $post[0];
+    }   
+
     public function saveLog()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
