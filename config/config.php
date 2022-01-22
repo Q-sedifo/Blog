@@ -22,6 +22,9 @@ define('BackgroundImgPath', DataImgPath . 'background.');
 date_default_timezone_set('Europe/Kiev');
 
 // Acceptable types of file
+define('D_IMG_WIDTH', 1920);
+define('D_IMG_HEIGHT', 1080);
+
 $imgTypes = [
     'jpeg', 'jpg', 'png', 'gif' 
 ];
