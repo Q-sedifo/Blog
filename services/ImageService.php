@@ -23,14 +23,10 @@ class ImageService
     public function loadImage($img, $path)
     {
         switch ($this->type) {
-            case 'jpg': imagejpeg($img, $path);
-                break;
-            case 'jpeg': imagejpeg($img, $path);
-                break;
-            case 'png': imagepng($img, $path);
-                break;
-            case 'gif': imagegif($img, $path);
-                break;
+            case 'jpg':     imagejpeg($img, $path); break;
+            case 'jpeg':    imagejpeg($img, $path); break;
+            case 'png':     imagepng($img, $path);  break;
+            case 'gif':     imagegif($img, $path);  break;
             default: trigger_error('Incorrect image type');
         }
 
@@ -44,14 +40,10 @@ class ImageService
         $image = $this->image['tmp_name'];
 
         switch ($type) {
-            case 'jpg': $img = imagecreatefromjpeg($image);
-                break;
-            case 'jpeg': $img = imagecreatefromjpeg($image);
-                break;
-            case 'png': $img = imagecreatefrompng($image);
-                break;
-            case 'gif': $img = imagecreatefromgif($image);
-                break;
+            case 'jpg':     $img = imagecreatefromjpeg($image); break;
+            case 'jpeg':    $img = imagecreatefromjpeg($image); break;
+            case 'png':     $img = imagecreatefrompng($image);  break;
+            case 'gif':     $img = imagecreatefromgif($image);  break;
             default: trigger_error('Incorrect image type');
         }
 

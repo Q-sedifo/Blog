@@ -68,8 +68,8 @@ class ProfileValidator extends FormHelper
         if (!empty($avatar['tmp_name']) && !ImageService::imgTypeValidate($avatar['name'])) {
             $this->addError('Incorrect avatar type');
         }
-        if (!empty($background['tmp_name']) && !ImageService::imgTypeValidate($background['name'])) {
-            $this->addError('Incorrect background type');
+        if (!empty($background['tmp_name']) && ImageService::getImgType($background['name']) !== 'jpg') {
+            $this->addError('JPG head type only');
         }
     }
 

@@ -62,6 +62,10 @@ class PostValidator extends FormHelper
         if (!empty($image['tmp_name']) && !ImageService::imgTypeValidate($image['name'])) {
             $this->addError('Incorrect image type');
         }
+
+        if (!empty($image['tmp_name']) && ImageService::getImgType($image['name']) !== 'jpg') {
+            $this->addError('JPG image type only');
+        }
     }
 
 }

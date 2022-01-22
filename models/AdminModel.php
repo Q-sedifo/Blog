@@ -36,17 +36,18 @@ class AdminModel extends Model
     }
 
     public function postUpdate($post_id, $post)
-    {
+    {   
         $title = htmlentities(trim($post['title']));
         $desc = htmlentities(trim($post['description'])); 
 
-        $imgType = ImageService::getImgType($post['preview']);
-        $preview = PostImgPath . $post_id . '.' . $imgType;
+        $preview = PostImgPath . $post_id . '.jpg';
+        $previewMini = PostImgPath . '/mini/' . $post_id . '.jpg';
 
         // Replace post image
         if (!empty($_FILES['image']['tmp_name'])) {
-            if (file_exists($post['pre_preview'])) unlink($post['pre_preview']);
-            move_uploaded_file($_FILES['image']['tmp_name'], $preview);
+            $image = new ImageService($_FILES['image']);
+            $image->loadImage($image->compress(), $preview);
+            $image->loadImage($image->compress(320, 170), $previewMini);
         } 
         
         $this->query->row("UPDATE posts SET title = '$title', descript = '$desc', preview = '$preview' WHERE id = $post_id");
@@ -74,11 +75,13 @@ class AdminModel extends Model
 
         if (!empty($_FILES['ava']['tmp_name'])) {
             if (file_exists($post['pre_ava'])) unlink($post['pre_ava']);
-            move_uploaded_file($_FILES['ava']['tmp_name'], $post['ava']);
+            $avatar = new ImageService($_FILES['ava']);
+            $avatar->loadImage($avatar->compress(300, 300), $post['ava']);
         }
         else if (!empty($_FILES['background']['tmp_name'])) {
             if (file_exists($post['pre_background'])) unlink($post['pre_background']);
-            move_uploaded_file($_FILES['background']['tmp_name'], $post['background']);
+            $background = new ImageService($_FILES['background']);
+            $background->loadImage($background->compress(), $post['background']);
         }
 
         unset($post['pre_ava']);
@@ -98,11 +101,14 @@ class AdminModel extends Model
 
     public function postUpdatePreview($postId)
     {
-        $imgType = ImageService::getImgType($_FILES['image']['name']);
-        $preview = PostImgPath . $postId . '.' . $imgType;
-
+        $preview = PostImgPath . $postId . '.jpg';
+        $previewMini = PostImgPath . '/mini/' . $postId . '.jpg';
+        
         // Load image for post
-        move_uploaded_file($_FILES['image']['tmp_name'], $preview);
+        $image = new ImageService($_FILES['image']);
+        $image->loadImage($image->compress(), $preview);
+        $image->loadImage($image->compress(320, 170), $previewMini);
+
         return $this->query->row("UPDATE posts SET preview = '$preview' WHERE id = $postId");
     }
 
