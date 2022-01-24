@@ -46,7 +46,6 @@ window.onload = () => {
 }
 
 // Ajax loading posts
-
 function loadMorePosts() {
     let loadFrom = Math.ceil(document.querySelectorAll('.post').length / 3 + 1)
     let inProgress = false
