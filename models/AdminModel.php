@@ -39,16 +39,7 @@ class AdminModel extends Model
     {   
         $title = htmlentities(trim($post['title']));
         $desc = htmlentities(trim($post['description'])); 
-
         $preview = PostImgPath . $post_id . '.jpg';
-        $previewMini = PostImgPath . '/mini/' . $post_id . '.jpg';
-
-        // Replace post image
-        if (!empty($_FILES['image']['tmp_name'])) {
-            $image = new ImageService($_FILES['image']);
-            $image->loadImage($image->compress(), $preview);
-            $image->loadImage($image->compress(320, 170), $previewMini);
-        } 
         
         $this->query->row("UPDATE posts SET title = '$title', descript = '$desc', preview = '$preview' WHERE id = $post_id");
         return true;
@@ -68,20 +59,15 @@ class AdminModel extends Model
     {   
         // Getting images types
         $avaType = ImageService::getImgType($_FILES['ava']['name']);
-        $backgroundType = ImageService::getImgType($_FILES['background']['name']);
 
-        $post['ava'] = !empty($_FILES['ava']['name']) ? AvatarImgPath . $avaType : $post['pre_ava'];
-        $post['background'] = !empty($_FILES['background']['name']) ? BackgroundImgPath . $backgroundType : $post['pre_background'];
+        $post['ava'] = !empty($_FILES['ava']['tmp_name']) ? AvatarImgPath . $avaType : $post['pre_ava'];
+        $post['background'] = !empty($_FILES['background']['tmp_name']) ? BackgroundImgPath . 'jpg' : $post['pre_background'];
 
         if (!empty($_FILES['ava']['tmp_name'])) {
-            if (file_exists($post['pre_ava'])) unlink($post['pre_ava']);
-            $avatar = new ImageService($_FILES['ava']);
-            $avatar->loadImage($avatar->compress(300, 300), $post['ava']);
+            $this->profileUploadImage($_FILES['ava'], 'avatar');
         }
-        else if (!empty($_FILES['background']['tmp_name'])) {
-            if (file_exists($post['pre_background'])) unlink($post['pre_background']);
-            $background = new ImageService($_FILES['background']);
-            $background->loadImage($background->compress(), $post['background']);
+        if (!empty($_FILES['background']['tmp_name'])) {
+            $this->profileUploadImage($_FILES['background'], 'background');
         }
 
         unset($post['pre_ava']);
@@ -96,25 +82,37 @@ class AdminModel extends Model
         }
 
         file_put_contents('config/adminData.json', json_encode($data));
-        return true;
+        return;
     }
 
     public function postUpdatePreview($postId)
     {
         $preview = PostImgPath . $postId . '.jpg';
-        $previewMini = PostImgPath . '/mini/' . $postId . '.jpg';
-        
-        // Load image for post
-        $image = new ImageService($_FILES['image']);
-        $image->loadImage($image->compress(), $preview);
-        $image->loadImage($image->compress(320, 170), $previewMini);
-
         return $this->query->row("UPDATE posts SET preview = '$preview' WHERE id = $postId");
     }
 
     public function getAdminData()
     {
         return $this->data->getData();
+    }
+
+    public function postUploadImage($image, $id)
+    {
+        $path = PostImgPath . $id . '.jpg';
+        $preview = new ImageService($image);
+        $preview->loadImage($preview->compress(), $path);
+        $preview->loadImage($preview->compress(320, 180), PostImgPath . '/mini/' . $id . '.jpg');
+    }
+
+    public function profileUploadImage($image, $type)
+    {
+        $img = new ImageService($image);
+        switch ($type) {
+            case 'avatar': $img->loadImage($img->compress(300, 300), AvatarImgPath . $img->getType());
+                break;
+            case 'background': $img->loadImage($img->compress(), BackgroundImgPath . 'jpg');
+                break;
+        }
     }
 
 }

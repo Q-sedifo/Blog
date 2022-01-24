@@ -35,7 +35,7 @@ class AdminController extends Controller
                 $this->model->postAdd($_POST);
                 $postId = $this->model->getLastPostId();
                 $this->model->postUpdatePreview($postId);
-
+                $this->model->postUploadImage($_FILES['image'], $postId);
                 $this->view->reply('Post added', 'success', true, '?controller=admin');
             }
 
@@ -61,6 +61,7 @@ class AdminController extends Controller
                 // Previous preview for replacing image
                 $_POST['pre_preview'] = !empty($_FILES['image']['name']) ? $post['preview'] : null;
                 $this->model->postUpdate($postId, $_POST);
+                $this->model->postUploadImage($_FILES['image'], $postId);
                 $this->view->reply('Post edited', 'success', true, '?controller=admin');
             }
             
