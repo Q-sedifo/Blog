@@ -8,6 +8,13 @@ class IndexController extends Controller
 
     public function indexAction() 
     {    
+        // Ajax loading posts
+        if (!empty($_POST)) {
+            $posts = $this->model->getPosts(PostsLimit, $_POST['loadFrom']);
+            echo json_encode($posts);
+            exit();
+        }
+
         // Page control
         $page_params = [
             'page' => isset($_GET['page']) ? intval($_GET['page']) : 1,
