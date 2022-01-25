@@ -37,6 +37,18 @@ class AdminManager
         if ($prop) return self::$data[$prop];
             return self::$data;
     }
+    
+    public function updateData($params)
+    {
+        if ($params && is_array($params)) {
+            $data = self::extractData();
+            foreach($params as $key => $value) {
+                $data[$key] = trim($value);
+            }   
+            file_put_contents(self::FILE, json_encode($data));
+        }
+        return;
+    }
 
     static public function getPassword()
     {

@@ -6,6 +6,7 @@ use services\validators\LoginValidator;
 use services\validators\ContactValidator;
 use services\validators\PostValidator;
 use services\validators\ProfileValidator;
+use services\validators\PasswordValidator;
 
 class ValidatorsFactory 
 {
@@ -23,6 +24,9 @@ class ValidatorsFactory
                 break;
             case 'profile':
                 return new ProfileValidator($_POST);
+                break;
+            case 'password': 
+                return new PasswordValidator($_POST);
                 break;
         }
     }

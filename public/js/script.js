@@ -71,3 +71,15 @@ function loadMorePosts() {
         }
     })
 }
+
+// Sending request for mailing unique code for changing password
+function sendCode() {
+    $.ajax({
+        url: '?controller=admin&action=changePassword',
+        type: 'GET',
+        data: {},
+        success: (data) => {
+            console.log(data)
+        }
+    })
+}

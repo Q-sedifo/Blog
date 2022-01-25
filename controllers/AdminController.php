@@ -2,6 +2,7 @@
 
 use core\Controller;
 use services\validators\factory\ValidatorsFactory;
+use services\CodeGeneratorService;
 
 class AdminController extends Controller
 {
@@ -55,8 +56,8 @@ class AdminController extends Controller
         if (!empty($_POST)) {
             // Default value of post preview
             $_POST['preview'] = empty($_FILES['image']['name']) ? $post['preview'] : trim($_FILES['image']['name']);
+            
             $form = ValidatorsFactory::create('post', 'edit');
-
             if ($form->checkError()) {
                 // Previous preview for replacing image
                 $_POST['pre_preview'] = !empty($_FILES['image']['name']) ? $post['preview'] : null;
@@ -119,8 +120,27 @@ class AdminController extends Controller
     {
         // Remove session 
         if (isset($_SESSION['admin'])) unset($_SESSION['admin']);
-        // Redirect page
         $this->view->redirect();
     }
 
+    public function changePasswordAction()
+    {
+        if (!empty($_POST)) {
+            $form = ValidatorsFactory::create('password');
+            if ($form->checkError()) {
+                unset($_SESSION['code']);
+                $this->model->updatePassword($_POST['new_password']);
+                $this->view->reply('Password changed', 'success', true, '?controller=admin&action=profile');
+            }
+
+            $this->view->reply($form->getError(), 'error', true, '?controller=admin&action=logout');
+        }
+
+        $email = $this->model->getAdminData()['email'];
+        // Generating code
+        $code = CodeGeneratorService::createCode();
+        $_SESSION['code'] = md5($code);
+        mail($email, 'Blog | ', 'Code: ' . $code);
+    }
+    
 }

@@ -74,14 +74,7 @@ class AdminModel extends Model
         unset($post['pre_background']);
 
         // Change data
-        $file = file_get_contents('config/adminData.json');
-        $data = json_decode($file, true);
-
-        foreach ($post as $key => $value) {
-            $data[$key] = trim($value);
-        }
-
-        file_put_contents('config/adminData.json', json_encode($data));
+        $this->data->updateData($post);
         return;
     }
 
@@ -113,6 +106,15 @@ class AdminModel extends Model
             case 'background': $img->loadImage($img->compress(), BackgroundImgPath . 'jpg');
                 break;
         }
+    }
+
+    public function updatePassword($newPassword)
+    {
+        $params = [
+            'password' => password_hash($newPassword, PASSWORD_DEFAULT)
+        ];
+        $this->data->updateData($params);
+        return;
     }
 
 }

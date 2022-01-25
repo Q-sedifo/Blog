@@ -20,3 +20,16 @@
         <input type="submit" value="Save">
     </div>
 </form>
+<button type="button" onclick="sendCode()">Change password</button>
+<div>Change password</div>
+<form method="POST" action="?controller=admin&action=changePassword">
+    <div>
+        <input type="text" name="code">
+    </div>
+    <div>
+        <input type="password" name="new_password">
+    </div>
+    <div>
+        <input type="submit" value="Change">
+    </div>
+</form>
