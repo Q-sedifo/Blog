@@ -6,3 +6,4 @@ config/data.php
 config/adminData.json
 library/notification/README.md
 logs.txt
+code.txt
