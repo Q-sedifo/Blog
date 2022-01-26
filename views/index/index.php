@@ -22,4 +22,5 @@
 <?php else: ?>
     <div>No posts</div>
 <?php endif; ?>
+<input id="search" type="text" placeholder="Search" oninput="searchPosts(this.value)">
 

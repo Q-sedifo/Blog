@@ -104,4 +104,12 @@ class IndexController extends Controller
         $this->view->render('Login');
     }
 
+    public function postSearchAction()
+    {
+        if (!empty($_POST)) {
+            $posts = $this->model->searchPosts($_POST['title']);
+            echo json_encode($posts);
+        }
+    }
+
 }

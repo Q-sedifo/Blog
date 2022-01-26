@@ -36,4 +36,10 @@ class IndexModel extends Model
         return $this->data->getData();
     }
 
+    public function searchPosts($title)
+    {
+        $title = htmlentities($title);
+        return $this->query->row("SELECT * FROM posts WHERE title LIKE '%$title%'");
+    }
+
 }

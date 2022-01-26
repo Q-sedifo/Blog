@@ -3,6 +3,9 @@ window.onload = () => {
     // Cheching out messages
     message.checkMessage()
 
+    // const search = document.querySelector('#search').val()
+    // search.onchange = () => console.log(search)
+
     // Ajax requests
     $('form').submit(function (event) {
 
@@ -82,4 +85,18 @@ function sendCode() {
             console.log(data)
         }
     })
+}
+
+// Posts serach
+function searchPosts(text) {
+    if (text != '') {
+        $.ajax({
+            url: '?controller=index&action=postSearch',
+            type: 'POST',
+            data: { "title": text.trim() },
+            success: (data) => {
+                console.log(JSON.parse(data))
+            }
+        })
+    }
 }
