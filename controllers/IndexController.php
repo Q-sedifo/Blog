@@ -27,17 +27,13 @@ class IndexController extends Controller
         $posts = $this->model->getPosts($postsLimit, $page); 
         $postsAmount = $this->model->getPostsAmount();
         
-        // Pagination    
-        $pagesAmount = empty($postsAmount) ? 1 : ceil($postsAmount / $postsLimit);
-        
-        if ($page > $pagesAmount || $page < 0) $this->view->redirect();
+        if ($page < 1 || $page > ceil($postsAmount / PostsLimit)) $this->view->redirect();
     
         // Transfering data
         $vars = [
             'adminData' => $adminData,
             'posts' => $posts,
-            'postsAmount' => $postsAmount,
-            'pagesAmount' => $pagesAmount
+            'postsAmount' => $postsAmount
         ];
         
         $this->view->render($adminData['name'], $vars);
@@ -66,7 +62,6 @@ class IndexController extends Controller
                 $adminData = $this->model->getAdminData();
                 // Send message on email
                 mail($adminData['email'], 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
-
                 $this->view->reply('Message sent', 'success', true);
             }
             
@@ -109,7 +104,9 @@ class IndexController extends Controller
         if (!empty($_POST)) {
             $posts = $this->model->searchPosts($_POST['title']);
             echo json_encode($posts);
+            exit();
         }
+        $this->view->redirect();
     }
 
 }
