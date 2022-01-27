@@ -13,9 +13,10 @@ class AdminModel extends Model
         }
     }
 
-    public function getAllPosts()
+    public function getLimitedPosts($limit = 0, $page = 1)
     {
-        return $this->query->row('SELECT * from posts ORDER BY id DESC');
+        $range = $limit * ($page - 1);
+        return $this->query->row("SELECT * FROM posts ORDER BY id DESC LIMIT $range, $limit");
     }
 
     public function getPostsAmount()

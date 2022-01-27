@@ -15,13 +15,19 @@ class AdminController extends Controller
 
     public function IndexAction()
     {
-        $posts = $this->model->getAllPosts();
+        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $posts = $this->model->getLimitedPosts(PostsLimit, $page);
         $postsAmount = $this->model->getPostsAmount();
+
+        // Pagination    
+        $pagesAmount = empty($postsAmount) ? 1 : ceil($postsAmount / PostsLimit);
+        if ($page > $pagesAmount || $page < 1) $this->view->redirect();
         
         // Transfering data
         $vars = [
             'posts' => $posts,
-            'postsAmount' => $postsAmount
+            'postsAmount' => $postsAmount,
+            'pagesAmount' => $pagesAmount
         ];
 
         $this->view->render('Admin panel', $vars);
