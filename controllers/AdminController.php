@@ -86,6 +86,16 @@ class AdminController extends Controller
         $this->view->render('Edit post', $vars);
     }
 
+    public function deletePostAction()
+    {
+        if (!empty($_GET)) {
+            $id = intval($_GET['id']);
+            $this->model->deletePost($id);
+            $this->model->removePostImage($id);
+            $this->view->reply('Post deleted', 'success', true);
+        }
+    }
+
     public function profileAction()
     {
         $data = $this->model->getAdminData();

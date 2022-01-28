@@ -1,8 +1,8 @@
 <div>Index page</div>
 <div>
-    <strong>All posts: <?= $postsAmount; ?></strong>
+    <strong>All posts: <span id="postCount"><?= $postsAmount; ?></span></strong>
     <?php foreach ($posts as $post): ?>
-        <div><?= $post['title']; ?><a href="?controller=admin&action=editPost&id=<?= $post['id']; ?>"><</a><a href="#">&times;</a></div>
+        <div id="post<?= $post['id'] ?>"><?= $post['title']; ?><a href="?controller=admin&action=editPost&id=<?= $post['id']; ?>"><</a><button onclick="deletePost(<?= $post['id']; ?>)">&times;</button></div>
     <?php endforeach; ?>
     <?php if ($postsAmount > 3): ?>
         <div>

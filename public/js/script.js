@@ -3,9 +3,6 @@ window.onload = () => {
     // Cheching out messages
     message.checkMessage()
 
-    // const search = document.querySelector('#search').val()
-    // search.onchange = () => console.log(search)
-
     // Ajax requests
     $('form').submit(function (event) {
 
@@ -99,4 +96,20 @@ function searchPosts(text) {
             }
         })
     }
+}
+
+// Delete post for admin
+function deletePost(id) {
+    $.ajax({
+        url: '?controller=admin&action=deletePost&id=' + id,
+        type: 'GET',
+        data: {},
+        success: (data) => {
+            const response = JSON.parse(data)
+            message.createMessage(response['message'])
+            const post = document.getElementById('post' + id)
+            document.getElementById('postCount').innerHTML -= 1
+            post.style.display = 'none';
+        }
+    })
 }

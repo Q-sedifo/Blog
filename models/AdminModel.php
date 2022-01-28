@@ -56,6 +56,21 @@ class AdminModel extends Model
         return true;
     }
 
+    public function deletePost($postId)
+    {
+        return $this->query->row("DELETE FROM posts WHERE id = $postId");
+    }
+
+    public function removePostImage($id)
+    {
+        $images = [
+            'max' => PostImgPath . $id . '.jpg',
+            'mini' => PostImgPath . '/mini/' . $id . '.jpg'
+        ];
+        foreach ($images as $image) if (file_exists($image)) unlink($image);
+        return;
+    }
+
     public function saveData($post)
     {   
         // Getting images types
