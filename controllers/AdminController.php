@@ -16,9 +16,9 @@ class AdminController extends Controller
     public function IndexAction()
     {
         $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $posts = $this->model->getLimitedPosts(PostsLimit, $page);
+        $posts = $this->model->getCardPosts(PostsLimit, $page);
         $postsAmount = $this->model->getPostsAmount();
-
+        
         // Pagination    
         $pagesAmount = empty($postsAmount) ? 1 : ceil($postsAmount / PostsLimit);
         if ($page > $pagesAmount || $page < 1) $this->view->redirect();

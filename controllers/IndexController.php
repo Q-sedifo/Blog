@@ -10,7 +10,7 @@ class IndexController extends Controller
     {    
         // Ajax loading posts
         if (!empty($_POST)) {
-            $posts = $this->model->getPosts(PostsLimit, $_POST['loadFrom']);
+            $posts = $this->model->getCardPosts(PostsLimit, $_POST['loadFrom']);
             echo json_encode($posts);
             exit();
         }
@@ -24,11 +24,11 @@ class IndexController extends Controller
         
         // Getting data from db
         $adminData = $this->model->getAdminData();
-        $posts = $this->model->getPosts($postsLimit, $page); 
+        $posts = $this->model->getCardPosts($postsLimit, $page);
         $postsAmount = $this->model->getPostsAmount();
         
         if ($page < 1 || $page > ceil($postsAmount / PostsLimit)) $this->view->redirect();
-    
+        
         // Transfering data
         $vars = [
             'adminData' => $adminData,
@@ -57,14 +57,14 @@ class IndexController extends Controller
     {
         if (!empty($_POST)) {
             $form = ValidatorsFactory::create('contact');
-
+            
             if ($form->checkError()) {
                 $adminData = $this->model->getAdminData();
                 // Send message on email
                 mail($adminData['email'], 'Blog', $_POST['name'] . '|' . $_POST['email'] . '|' . $_POST['message']);
                 $this->view->reply('Message sent', 'success', true);
             }
-            
+           
             $this->view->reply($form->getError(), 'error', false);
         }
 
@@ -82,18 +82,18 @@ class IndexController extends Controller
         // Login function
         if (!empty($_POST)) {
             $form = ValidatorsFactory::create('login');
-
+        
             if ($form->checkError()) {
                 $admin = $this->model->getAdminData();
                 // Fix logs with ip and date
                 $this->model->saveLog();
-                // Login, create session and inform
                 $_SESSION['admin'] = $admin;
 
                 $this->view->reply('You logged in', 'success', true, '?controller=admin');
             } 
             
             $this->view->reply($form->getError(), 'error', false);
+
         }
 
         $this->view->render('Login');

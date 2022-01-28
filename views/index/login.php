@@ -1,5 +1,5 @@
 <strong>Login</strong>
-<form method="POST" action="?action=login" reload="true">
+<form method="POST" action="?action=login">
     <div>
         <input type="text" name="login" placeholder="Login">
     </div>
