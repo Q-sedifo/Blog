@@ -22,7 +22,7 @@ class AdminController extends Controller
         // Pagination    
         $pagesAmount = empty($postsAmount) ? 1 : ceil($postsAmount / PostsLimit);
         if ($page > $pagesAmount || $page < 1) $this->view->redirect();
-        
+    
         // Transfering data
         $vars = [
             'posts' => $posts,

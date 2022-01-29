@@ -16,7 +16,7 @@ class AdminModel extends Model
     public function getCardPosts($limit = 0, $page = 1)
     {
         $range = $limit * ($page - 1);
-        return $this->query->row("SELECT id, title, datatime FROM posts ORDER BY id DESC LIMIT $range, $limit");
+        return $this->query->row("SELECT id, title, mini_preview, datatime FROM posts ORDER BY id DESC LIMIT $range, $limit");
     }
 
     public function getPostsAmount()
@@ -41,8 +41,9 @@ class AdminModel extends Model
         $title = htmlentities(trim($post['title']));
         $desc = htmlentities(trim($post['description'])); 
         $preview = PostImgPath . $post_id . '.jpg';
+        $previewMini = PostImgPathMini . $post_id . '.jpg';
         
-        $this->query->row("UPDATE posts SET title = '$title', descript = '$desc', preview = '$preview' WHERE id = $post_id");
+        $this->query->row("UPDATE posts SET title = '$title', descript = '$desc', preview = '$preview', mini_preview = '$previewMini' WHERE id = $post_id");
         return true;
     }   
 
@@ -51,8 +52,9 @@ class AdminModel extends Model
         $title = htmlentities(trim($post['title']));
         $desc = htmlentities(trim($post['description']));
         $preview = PostImgPath;
+        $previewMini = PostImgPathMini;
         
-        $this->query->row("INSERT INTO posts (title, descript, preview) VALUES('$title', '$desc', '$preview')");
+        $this->query->row("INSERT INTO posts (title, descript, preview, mini_preview) VALUES('$title', '$desc', '$preview', '$previewMini')");
         return true;
     }
 
@@ -65,7 +67,7 @@ class AdminModel extends Model
     {
         $images = [
             'max' => PostImgPath . $id . '.jpg',
-            'mini' => PostImgPath . '/mini/' . $id . '.jpg'
+            'mini' => PostImgPathMini . $id . '.jpg'
         ];
         foreach ($images as $image) if (file_exists($image)) unlink($image);
         return;
@@ -97,7 +99,8 @@ class AdminModel extends Model
     public function postUpdatePreview($postId)
     {
         $preview = PostImgPath . $postId . '.jpg';
-        return $this->query->row("UPDATE posts SET preview = '$preview' WHERE id = $postId");
+        $previewMini = PostImgPathMini . $postId . '.jpg';
+        return $this->query->row("UPDATE posts SET preview = '$preview', mini_preview = '$previewMini' WHERE id = $postId");
     }
 
     public function getAdminData()
@@ -107,10 +110,9 @@ class AdminModel extends Model
 
     public function postUploadImage($image, $id)
     {
-        $path = PostImgPath . $id . '.jpg';
         $preview = new ImageService($image);
-        $preview->loadImage($preview->compress(), $path);
-        $preview->loadImage($preview->compress(320, 180), PostImgPath . '/mini/' . $id . '.jpg');
+        $preview->loadImage($preview->compress(), PostImgPath . $id . '.jpg');
+        $preview->loadImage($preview->compress(320, 180), PostImgPathMini . $id . '.jpg');
     }
 
     public function profileUploadImage($image, $type)

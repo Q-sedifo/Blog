@@ -13,6 +13,7 @@ define('PostsLimit', 3);
 // Define constants for image path
 define('ImgPath', 'public/images/');
 define('PostImgPath', ImgPath . 'posts/');
+define('PostImgPathMini', PostImgPath . 'mini/');
 define('DataImgPath', ImgPath . 'data/');
 
 define('AvatarImgPath', DataImgPath . 'ava.');

@@ -8,7 +8,7 @@ class IndexModel extends Model
     public function getCardPosts($limit = 0, $page = 1)
     {
         $range = $limit * ($page - 1);
-        return $this->query->row("SELECT id, title, datatime FROM posts ORDER BY id DESC LIMIT $range, $limit");
+        return $this->query->row("SELECT id, title, mini_preview, datatime FROM posts ORDER BY id DESC LIMIT $range, $limit");
     }
 
     public function getPostsAmount()
@@ -39,7 +39,7 @@ class IndexModel extends Model
     public function searchPosts($title)
     {
         $title = htmlentities($title);
-        return $this->query->row("SELECT id, title, datatime FROM posts WHERE title LIKE '%$title%'");
+        return $this->query->row("SELECT id, title, mini_preview, datatime FROM posts WHERE title LIKE '%$title%'");
     }
 
     public function getRecomendedPosts()
@@ -48,7 +48,7 @@ class IndexModel extends Model
         $amount = count($ids) - 1;
         $first = $ids[mt_rand(0, $amount)]['id'];
         $second = $ids[mt_rand(0, $amount)]['id'];
-        return $this->query->row("SELECT id, title, datatime FROM posts WHERE id in($first, $second)");
+        return $this->query->row("SELECT id, title, mini_preview FROM posts WHERE id in($first, $second)");
     }
 
     public function getAllPostsId()
