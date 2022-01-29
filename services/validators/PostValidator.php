@@ -44,7 +44,7 @@ class PostValidator extends FormHelper
         if (empty($description)) {
             $this->addError('Fill description');
         }
-        else if (iconv_strlen($description) > 1000) {
+        else if (iconv_strlen($description) > 5000) {
             $this->addError('Too long description');
         }
     }

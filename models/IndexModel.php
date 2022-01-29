@@ -39,7 +39,21 @@ class IndexModel extends Model
     public function searchPosts($title)
     {
         $title = htmlentities($title);
-        return $this->query->row("SELECT * FROM posts WHERE title LIKE '%$title%'");
+        return $this->query->row("SELECT id, title, datatime FROM posts WHERE title LIKE '%$title%'");
+    }
+
+    public function getRecomendedPosts()
+    {
+        $ids = $this->getAllPostsId();
+        $amount = count($ids) - 1;
+        $first = $ids[mt_rand(0, $amount)]['id'];
+        $second = $ids[mt_rand(0, $amount)]['id'];
+        return $this->query->row("SELECT id, title, datatime FROM posts WHERE id in($first, $second)");
+    }
+
+    public function getAllPostsId()
+    {
+        return $this->query->row("SELECT id FROM posts");
     }
 
 }

@@ -43,11 +43,13 @@ class IndexController extends Controller
     {
         $postId = isset($_GET['id']) ? intval($_GET['id']) : null;
         $post = $this->model->getPostById($postId);
+        $recomendedPosts = $this->model->getRecomendedPosts();
 
         if (!$post) $this->view->redirect();
-
+    
         $vars = [
-            'post' => $post
+            'post' => $post,
+            'recomendedPosts' => $recomendedPosts
         ];
         
         $this->view->render($post['title'], $vars);
