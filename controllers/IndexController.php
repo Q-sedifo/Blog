@@ -42,13 +42,27 @@ class IndexController extends Controller
     public function postAction()
     {
         $postId = isset($_GET['id']) ? intval($_GET['id']) : null;
-        $post = $this->model->getPostById($postId);
-        $recomendedPosts = $this->model->getRecomendedPosts();
 
+        // Add comment
+        if (!empty($_POST)) {
+            $form = ValidatorsFactory::create('comment');
+
+            if ($form->checkError()) {
+                $this->model->addComment($postId, $_POST);
+                $this->view->reply('Comment added');
+            } 
+            $this->view->reply($form->getError(), 'error', false);
+        }
+
+        $post = $this->model->getPostById($postId);
+        $comments = $this->model->getPostComments($postId);
+        $recomendedPosts = $this->model->getRecomendedPosts();
+       
         if (!$post) $this->view->redirect();
     
         $vars = [
             'post' => $post,
+            'comments' => $comments,
             'recomendedPosts' => $recomendedPosts
         ];
         

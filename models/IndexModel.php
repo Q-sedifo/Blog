@@ -56,4 +56,16 @@ class IndexModel extends Model
         return $this->query->row("SELECT id FROM posts");
     }
 
+    public function addComment($postId, $post)
+    {
+        $name = $post['name'];
+        $text = $post['text'];
+        return $this->query->row("INSERT INTO comments (`name`, `text`, `post_id`) VALUES ('$name', '$text', '$postId')");
+    }
+
+    public function getPostComments($postId)
+    {
+        return $this->query->row("SELECT id, name, text FROM comments WHERE post_id = $postId");
+    }
+
 }

@@ -7,6 +7,7 @@ use services\validators\ContactValidator;
 use services\validators\PostValidator;
 use services\validators\ProfileValidator;
 use services\validators\PasswordValidator;
+use services\validators\CommentValidator;
 
 class ValidatorsFactory 
 {
@@ -27,6 +28,9 @@ class ValidatorsFactory
                 break;
             case 'password': 
                 return new PasswordValidator($_POST);
+                break;
+            case 'comment':
+                return new CommentValidator($_POST);
                 break;
         }
     }
