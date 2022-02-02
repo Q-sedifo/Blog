@@ -124,12 +124,8 @@ class AdminController extends Controller
     public function logsAction()
     {
         $logs = $this->model->getLogs();
-
-        $vars = [
-            'logs' => isset($logs) ? $logs : null
-        ];
-
-        $this->view->render('Logs story', $vars);
+        echo json_encode($logs);
+        exit();
     }
 
     public function logoutAction()
