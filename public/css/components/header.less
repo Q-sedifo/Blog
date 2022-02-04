@@ -1,0 +1,55 @@
+// main: ../styles.less
+
+header {
+    width: 100%;
+    height: @header-h;
+    padding: 0 @basic-gap;
+
+    position: fixed;
+    left: 0; top: 0;
+    
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .acc {
+            padding: @basic-gap;
+            width: @header-h - 5px;
+            height: @header-h - 5px; 
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+
+            #preloader {
+                .spread();
+                position: absolute;
+                left: 0px; top: 0px;
+
+                border-radius: 50%;
+                border: 2px solid rgba(255, 255, 255, 0);
+            }
+
+            img { 
+                .spread(); 
+                background-color: cornflowerblue;
+                border-radius: 50%;
+            }
+        }
+
+        #logo {
+            width: @header-h - 5px;
+            height: @header-h - 5px;
+
+            img { .spread(); }
+        }
+
+        #menu-btn {
+            width: @header-h;
+            height: @header-h;
+            padding: @basic-gap;
+
+            img { .spread(); }
+        }
+    }
+}

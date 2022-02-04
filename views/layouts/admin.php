@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Link the shortcut icon -->
+        <link rel="shortcut icon" href="public/icons/logo.svg">
         <!-- Link Jquery -->
         <script src="library/js/jquery.js"></script>
         <!-- Link Notification script -->
@@ -13,10 +15,13 @@
         <script src="public/js/script.js"></script>
         <!-- Admin functions -->
         <script src="public/js/adminFunctions.js"></script>
+        <!-- Link styles -->
+        <link href="public/css/styles.css" rel="stylesheet">
         <title>Blog | <?= $title; ?></title>
     </head>
     <body>
         <main>
+            <!-- Content -->
             <strong>Admin panel</strong>
             <a href="/Blog">Home</a>
             <a href="?controller=admin&action=logout">Logout</a>

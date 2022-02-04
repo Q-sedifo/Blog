@@ -1,0 +1,31 @@
+// compress: true;
+
+@import "vars.less";
+@import "helpers.less";
+@import "anims.less";
+@import "classes.less";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    // font-size: ;
+    font-family: sans-serif;
+}
+
+main {
+    background-color: @dark;
+    color: @primary;
+    padding-top: @header-h; 
+    position: relative;
+}
+
+// components
+@import "components/header.less";

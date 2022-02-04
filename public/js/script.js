@@ -2,6 +2,7 @@ window.onload = () => {
 
     // Cheching out messages
     message.checkMessage()
+    const preloader = document.getElementById('preloader')
 
     // Ajax requests
     $('form').submit(function (event) {
@@ -17,9 +18,13 @@ window.onload = () => {
             cache: false,
             contentType: false,
             processData: false,
-            beforeSend: () => btns.forEach(b => b.disabled = true),
+            beforeSend: () => {
+                runPreloader()
+                btns.forEach(b => b.disabled = true)
+            },
             success: (data) => {
                 btns.forEach(b => b.disabled = false)
+                stopPreloader()
 
                 const response = JSON.parse(data)
 
@@ -45,6 +50,15 @@ window.onload = () => {
 
 }
 
+// Run preloader
+function runPreloader() {
+    preloader.classList.add('run-preloader')
+}
+
+function stopPreloader() {
+    preloader.classList.remove('run-preloader')
+}
+
 // Ajax loading posts
 function loadMorePosts() {
     let loadFrom = Math.ceil(document.querySelectorAll('.post').length / 3 + 1)
@@ -54,7 +68,10 @@ function loadMorePosts() {
         url: '?controller=index&action=index',
         type: 'POST',
         data: { "loadFrom": loadFrom },
-        beforeSend: () => inProgress = true,
+        beforeSend: () => {
+            runPreloader()
+            inProgress = true
+        },
         success: (data) => {
             inProgress = false
             let posts = JSON.parse(data)
@@ -68,6 +85,7 @@ function loadMorePosts() {
                 })
             }
             inProgress = false
+            stopPreloader()
         }
     })
 }
@@ -79,8 +97,10 @@ function searchPosts(text) {
             url: '?controller=index&action=postSearch',
             type: 'POST',
             data: { "title": text.trim() },
+            beforeSend: () => runPreloader(),
             success: (data) => {
                 console.log(JSON.parse(data))
+                stopPreloader()
             }
         })
     }
