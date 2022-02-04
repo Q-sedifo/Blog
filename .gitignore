@@ -1,5 +1,6 @@
 #folders
 public/images/
+public/icons/
 
 #files
 config/data.php
