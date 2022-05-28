@@ -26,6 +26,7 @@ class IndexController extends Controller
         $adminData = $this->model->getAdminData();
         $posts = $this->model->getCardPosts($postsLimit, $page);
         $postsAmount = $this->model->getPostsAmount();
+        $recomendedPosts = $this->model->getRecomendedPosts();
         
         if ($page < 1 || $page > ceil($postsAmount / PostsLimit)) $this->view->redirect();
         
@@ -33,7 +34,8 @@ class IndexController extends Controller
         $vars = [
             'adminData' => $adminData,
             'posts' => $posts,
-            'postsAmount' => $postsAmount
+            'postsAmount' => $postsAmount,
+            'recomendedPosts' => $recomendedPosts
         ];
         
         $this->view->render($adminData['name'], $vars);
