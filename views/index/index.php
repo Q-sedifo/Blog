@@ -20,15 +20,15 @@
                 <a href="?action=post&id=<?= $post['id']; ?>"></a>
             </div>
         <?php endforeach; ?>
+    <?php else: ?>
+        <div class="normal-message">No posts</div>
+    <?php endif; ?>
 </div>
 <!-- Pagination -->
 <?php if ($postsAmount > 3): ?>
     <div class="center line">
         <button class="btn" type="button" onclick="loadMorePosts(this)">More</button>
     </div>
-    <?php endif; ?>
-<?php else: ?>
-    <div class="normal-message">No posts</div>
 <?php endif; ?>
 <!-- Recomended posts -->
 <?php require_once 'views/components/recomendedPostsSection.php'; ?>
