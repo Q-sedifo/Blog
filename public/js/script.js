@@ -253,7 +253,6 @@ class passChanger {
 // Ajax loading posts
 function loadMorePosts(btn) {
     const loadFrom = Math.ceil(document.querySelectorAll('#posts .post-card').length / 3 + 1)
-    const inProgress = false
     const preloader = new Preloader()
 
     $.ajax({
@@ -263,12 +262,10 @@ function loadMorePosts(btn) {
         beforeSend: () => {
             btn.disabled = true
             preloader.run()
-            inProgress = true
         },
         success: (data) => {
+            const posts = JSON.parse(data)
             btn.disabled = false
-            inProgress = false
-            let posts = JSON.parse(data)
 
             if (posts.length > 0) {
                 posts.forEach(e => {
@@ -278,7 +275,6 @@ function loadMorePosts(btn) {
                     document.getElementById('posts').innerHTML += '<div class="post-card"><div class="card-title">' + e.title + '</div><div class="card-preview" style="background: linear-gradient(rgba(20, 20, 20, .7) 0%, rgba(0, 0, 0, 0) 40%), url(' + e.mini_preview + ');"></div><div class="card-date">' + e.datatime + '</div><a href="?action=post&id=' + e.id + '"></a></div>'
                 })
             } else message.createMessage('No available posts', 'warning');
-            inProgress = false
             preloader.stop()
         }
     })
