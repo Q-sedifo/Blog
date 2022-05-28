@@ -28,8 +28,6 @@ class IndexController extends Controller
         $postsAmount = $this->model->getPostsAmount();
         $recomendedPosts = $this->model->getRecomendedPosts();
         
-        if ($page < 1 || $page > ceil($postsAmount / PostsLimit)) $this->view->redirect();
-        
         // Transfering data
         $vars = [
             'adminData' => $adminData,
