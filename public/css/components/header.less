@@ -6,8 +6,10 @@ header {
     padding: 0 @basic-gap;
 
     position: fixed;
-    left: 0; top: 0;
-    
+    left: 0;
+    top: 0;
+    z-index: 1000;
+
     div {
         display: flex;
         align-items: center;
@@ -16,7 +18,7 @@ header {
         .acc {
             padding: @basic-gap;
             width: @header-h - 5px;
-            height: @header-h - 5px; 
+            height: @header-h - 5px;
             border-radius: 50%;
             position: relative;
             overflow: hidden;
@@ -24,32 +26,113 @@ header {
             #preloader {
                 .spread();
                 position: absolute;
-                left: 0px; top: 0px;
+                left: 0px;
+                top: 0px;
 
                 border-radius: 50%;
-                border: 2px solid rgba(255, 255, 255, 0);
+                border: 3px solid rgba(255, 255, 255, 0);
             }
 
-            img { 
-                .spread(); 
-                background-color: cornflowerblue;
+            img {
+                .spread();
+                background-color: @blue;
                 border-radius: 50%;
             }
         }
 
-        #logo {
-            width: @header-h - 5px;
-            height: @header-h - 5px;
+        #search {
+            display: none;
+            width: 300px;
+            position: relative;
 
-            img { .spread(); }
+            input {
+                width: 100%;
+                background-color: @primary;
+                padding: 2px;
+                font-weight: @bold-font;
+                border-radius: 3px;
+            }
+
+            .find-field {
+                display: block !important;
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: @header-h;
+                background-color: @dark-secondary;
+                max-height: 80vh;
+                overflow-y: auto;
+                border-radius: 5px;
+                .scroll();
+
+                .post {
+                    width: 100%;
+                    text-align: left;
+                    overflow: hidden;
+                    font-size: @basic-font;
+                    transition: .2s;
+                    background-color: @dark-secondary;
+                    color: @grey;
+                    position: relative;
+                    display: block;
+                    border-bottom: 1px solid @dark-secondary;
+                    padding: 2px 0px;
+                    border-radius: inherit;
+
+                    &:hover {
+                        color: @primary;
+                        background-color: @blue;
+                    }
+
+                    a {
+                        position: absolute;
+                        .spread();
+                        z-index: 2;
+                    }
+
+                    &-preview {
+                        width: 100%;
+                        height: 60px !important;
+                        .preview();
+                    }
+
+                    &-title {
+                        width: 100%;
+                        font-size: @small-font;
+                        padding: @basic-gap;
+                        font-weight: @bold-font;
+                    }
+                }
+
+                .message {
+                    width: 100%;
+                    padding: @middle-gap;
+                    color: @grey;
+                    font-size: @basic-font;
+                    .center();
+                }
+            }
         }
 
         #menu-btn {
             width: @header-h;
             height: @header-h;
             padding: @basic-gap;
+            transform: scale(-1, 1);
 
-            img { .spread(); }
+            img {
+                .spread();
+            }
+        }
+    }
+
+    @media @breakpoint-mobile {
+        #search {
+            width: 60% !important;
+
+            .find-field {
+                max-height: 50vh !important;
+            }
         }
     }
 }

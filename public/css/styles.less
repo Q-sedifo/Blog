@@ -13,19 +13,92 @@
     outline: none;
 }
 
-html { scroll-behavior: smooth; }
+::selection {
+    background-color: @blue;
+    color: @primary;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
-    // font-size: ;
-    font-family: sans-serif;
+    font-family: @font, sans-serif;
+    .scroll();
+
+    &::-webkit-scrollbar {
+        background-color: @dark-secondary;
+    }
 }
 
 main {
-    background-color: @dark;
+    background-color: @secondary;
     color: @primary;
-    padding-top: @header-h; 
     position: relative;
+    min-height: 100vh;
+
+    @media @breakpoint-mobile {
+        padding-bottom: 36px;
+    }
+}
+
+button,
+input,
+textarea {
+    font-size: @basic-font;
+    font-family: @font;
+    border: none;
+
+    &::placeholder {
+        color: fade(@grey, 50%);
+    }
+}
+
+form {
+    margin: 0 auto;
+    max-width: 400px;
+    border-radius: @basic-gap;
+
+    input:not(.btn),
+    textarea {
+        width: 100%;
+        color: @primary;
+        font-weight: @bold-font;
+        background-color: @dark-secondary;
+        padding: @middle-gap;
+        margin: 3px 0;
+        border-radius: 5px;
+        resize: vertical;
+        .scroll();
+    }
+
+    label,
+    .label {
+        .small-message;
+    }
+
+    .info {
+        color: @grey;
+        display: flex;
+        justify-content: space-between;
+
+        span {
+            font-style: italic;
+        }
+    }
+
+    .btns-section {
+        padding: @basic-gap 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+        gap: @basic-gap;
+    }
 }
 
 // components
 @import "components/header.less";
+@import "components/menu.less";
+@import "components/preview.less";
+@import "components/sections.less";
+@import "components/footer.less";

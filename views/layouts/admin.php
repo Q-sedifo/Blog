@@ -15,19 +15,23 @@
         <script src="public/js/script.js"></script>
         <!-- Admin functions -->
         <script src="public/js/adminFunctions.js"></script>
+        <!-- Link fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
         <!-- Link styles -->
         <link href="public/css/styles.css" rel="stylesheet">
         <title>Blog | <?= $title; ?></title>
     </head>
     <body>
         <main>
+            <!-- Admin menu -->
+            <?php require_once 'views/components/adminMenu.php'; ?>
+            <!-- Header -->
+            <?php require_once 'views/components/header.php'; ?>
+            <!-- Logs -->
+            <?php require_once 'views/components/logs.php'; ?>
             <!-- Content -->
-            <strong>Admin panel</strong>
-            <a href="/Blog">Home</a>
-            <a href="?controller=admin&action=logout">Logout</a>
-            <a href="?controller=admin&action=addPost">Add post</a>
-            <a href="?controller=admin&action=profile">Profile</a>
-            <div onclick="getLogs()">Logs</div>
             <?= $content; ?>
         </main>
     </body>

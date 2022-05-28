@@ -9,5 +9,5 @@
     <div>
         <textarea name="message" placeholder="Message"></textarea>
     </div>
-    <input type="submit" value="Send">
+    <input class="btn" type="submit" value="Send">
 </form>

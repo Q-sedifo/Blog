@@ -1,0 +1,55 @@
+// main: ../styles.less
+
+footer {
+    width: 100%;
+    background-color: @dark-secondary;
+    color: @grey;
+    font-size: @small-font;
+    padding: @large-gap;
+    .center();
+
+    .link-list {
+        padding: @middle-gap;
+        .center(row);
+        gap: @basic-gap;
+
+        .link {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: @blue;
+            transition: .4s;
+            color: @primary;
+            font-weight: @bold-font;
+            padding: @basic-gap;
+            position: relative;
+            .center();
+
+            svg,
+            img {
+                .spread();
+                fill: @primary;
+            }
+
+            &:hover {
+                background-color: @orange;
+
+                svg {
+                    fill: @secondary;
+                }
+            }
+        }
+
+        @media @breakpoint-mobile {
+            gap: @middle-gap;
+
+            .link {
+                border-radius: 10px;
+                width: 40px;
+                height: 40px;
+                padding: @middle-gap;
+            }
+        }
+    }
+}
