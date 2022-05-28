@@ -16,31 +16,35 @@
             </div>
         <?php endforeach; ?>
     </div>
-    <div class="pagination-line">
-        <?php if ($_GET['page'] > 3): ?>
-            <a href="?controller=admin&page=1">
-                <button>1</button>
-            </a>
-        <?php endif; ?>
-        <?php if ($_GET['page'] > 4): ?>
-            <div>...</div>
-        <?php endif; ?>
-        <?php for ($p = 1; $p <= $pagesAmount; $p++): ?>
-            <?php if (isset($_GET['page']) && !($p > $_GET['page'] + 2) && !($p < $_GET['page'] - 2)): ?>
-                <a href="?controller=admin&page=<?= $p; ?>">
-                    <button style="<?php if ($_GET['page'] == $p): ?>border: 1px solid #6478CE; color: #e6e6e6;<?php endif; ?>"><?= $p; ?></button>
+    <?php if ($posts): ?>
+        <div class="pagination-line">
+            <?php if ($_GET['page'] > 3): ?>
+                <a href="?controller=admin&page=1">
+                    <button>1</button>
                 </a>
             <?php endif; ?>
-        <?php endfor; ?>
-        <?php if ($pagesAmount > 3 && $_GET['page'] < $pagesAmount - 2): ?>
-            <div>...</div>
-        <?php endif; ?>
-        <?php if ($_GET['page'] < $pagesAmount - 2): ?>
-            <a href="?controller=admin&page=<?= $pagesAmount; ?>">
-                <button style="<?php if ($_GET['page'] == $pagesAmount): ?>border: 1px solid #6478CE; color: #e6e6e6;<?php endif; ?>"><?= $pagesAmount; ?></button>
-            </a>
-        <?php endif; ?>
-    <div>
+            <?php if ($_GET['page'] > 4): ?>
+                <div>...</div>
+            <?php endif; ?>
+            <?php for ($p = 1; $p <= $pagesAmount; $p++): ?>
+                <?php if (isset($_GET['page']) && !($p > $_GET['page'] + 2) && !($p < $_GET['page'] - 2)): ?>
+                    <a href="?controller=admin&page=<?= $p; ?>">
+                        <button style="<?php if ($_GET['page'] == $p): ?>border: 1px solid #6478CE; color: #e6e6e6;<?php endif; ?>"><?= $p; ?></button>
+                    </a>
+                <?php endif; ?>
+            <?php endfor; ?>
+            <?php if ($pagesAmount > 3 && $_GET['page'] < $pagesAmount - 2): ?>
+                <div>...</div>
+            <?php endif; ?>
+            <?php if ($_GET['page'] < $pagesAmount - 2): ?>
+                <a href="?controller=admin&page=<?= $pagesAmount; ?>">
+                    <button style="<?php if ($_GET['page'] == $pagesAmount): ?>border: 1px solid #6478CE; color: #e6e6e6;<?php endif; ?>"><?= $pagesAmount; ?></button>
+                </a>
+            <?php endif; ?>
+        <div>
+    <?php else: ?>
+        <div class="normal-message">No posts</div>
+    <?php endif; ?>
 </div>
 <!-- Admin posts search -->
 <div id="admin-posts-search-section" class="container">
