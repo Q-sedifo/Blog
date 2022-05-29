@@ -43,7 +43,7 @@
             <?php endif; ?>
         <div>
     <?php else: ?>
-        <div class="normal-message">No posts</div>
+        <a href="?controller=admin&action=addPost"><div class="box-icon" type="button"><img src="public/icons/add.svg"></div></a>
     <?php endif; ?>
 </div>
 <!-- Admin posts search -->
