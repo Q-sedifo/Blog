@@ -72,4 +72,8 @@ class IndexModel extends Model
         return $this->query->row("SELECT id, name, text FROM comments WHERE post_id = $postId ORDER BY id DESC LIMIT $range, $limit");
     }
 
+    public function getCommentsAmount($postId) {
+        return $this->query->column("SELECT COUNT(id) FROM comments WHERE post_id = $postId");
+    }
+
 }

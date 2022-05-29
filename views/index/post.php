@@ -14,7 +14,7 @@
         <?php require_once 'views/components/recomendedPostsSection.php'; ?>
         <!-- Post comments -->
         <div class="comments-section">
-            <div class="title">Comments <?= count($comments); ?><img src="public/icons/comments.svg"></div>
+            <div class="title">Comments <?= $commentsAmount; ?><img src="public/icons/comments.svg"></div>
             <form method="POST" action="">
                 <div>
                     <input type="text" name="name" placeholder="Name" value="Guest">
@@ -44,13 +44,6 @@
                 </div>
             <?php else: ?>
                 <div class="normal-message">No comments yet</div>
-            <?php endif; ?>
-            <?php if (count($comments) > 5): ?>
-                <div class="center">
-                    <div class="load-more-comments-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
-                    </div>
-                </div>
             <?php endif; ?>
         </div>
     </div>

@@ -63,6 +63,7 @@ class IndexController extends Controller
 
         $post = $this->model->getPostById($postId);
         $comments = $this->model->getPostComments($postId, 5);
+        $commentsAmount = $this->model->getCommentsAmount($postId);
         $recomendedPosts = $this->model->getRecomendedPosts();
        
         if (!$post) $this->view->redirect();
@@ -70,6 +71,7 @@ class IndexController extends Controller
         $vars = [
             'post' => $post,
             'comments' => $comments,
+            'commentsAmount' => $commentsAmount,
             'recomendedPosts' => $recomendedPosts
         ];
         
