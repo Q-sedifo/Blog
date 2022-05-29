@@ -57,18 +57,20 @@ function findPostByType() {
     let property = document.querySelector('.search input').value
     let type = document.querySelector('.search select').value
 
-    $.ajax({
-        url: '?controller=admin&action=findPostByType',
-        type: 'POST',
-        data: { property: property, type: type },
-        beforeSend: () => preloader.run(),
-        success: (data) => {
-            let posts = JSON.parse(data)
-            console.log(posts);
-            posts.forEach(post => {
-                document.querySelector('#foundPosts').innerHTML = '<div id="post' + post.id + '" class="post-card"><div class="post-card-info">Id:<span>#' + post.id + '</span></div><div class="post-card-data">Date:<span>' + post.datatime + '</span></div><div class="post-card-title">' + post.title + '</div><div class="post-card-preview" style="background: linear-gradient(rgba(20, 20, 20, .7) 0%, rgba(0, 0, 0, 0) 40%), url(' + post.mini_preview + ');"></div><div class="post-card-btns-block"><button class="btn"><img src="public/icons/edit.svg"><a href="?controller=admin&action=editPost&id=' + post.id + '"></a></button><button class="btn negative" onclick="deletePost(' + post.id + ')"><img src="public/icons/cancel.svg"></button></div></div>'
-            });
-            preloader.stop()
-        }
-    })
+    if (String(property).length > 0) {
+        $.ajax({
+            url: '?controller=admin&action=findPostByType',
+            type: 'POST',
+            data: { property: property, type: type },
+            beforeSend: () => preloader.run(),
+            success: (data) => {
+                let posts = JSON.parse(data)
+                posts.forEach(post => {
+                    document.querySelector('#foundPosts').innerHTML += '<div id="post' + post.id + '" class="post-card"><div class="post-card-info">Id:<span>#' + post.id + '</span></div><div class="post-card-data">Date:<span>' + post.datatime + '</span></div><div class="post-card-title">' + post.title + '</div><div class="post-card-preview" style="background: linear-gradient(rgba(20, 20, 20, .7) 0%, rgba(0, 0, 0, 0) 40%), url(' + post.mini_preview + ');"></div><div class="post-card-btns-block"><button class="btn"><img src="public/icons/edit.svg"><a href="?controller=admin&action=editPost&id=' + post.id + '"></a></button><button class="btn negative" onclick="deletePost(' + post.id + ')"><img src="public/icons/cancel.svg"></button></div></div>'
+                });
+                document.querySelector('#postSearcher').value = ''
+                preloader.stop()
+            }
+        })
+    }
 }

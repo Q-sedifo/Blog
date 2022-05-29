@@ -135,4 +135,8 @@ class AdminModel extends Model
         return;
     }
 
+    public function findPostByType($type, $property) {
+        return $this->query->row("SELECT * FROM posts WHERE $type LIKE '%$property%'");
+    }
+
 }

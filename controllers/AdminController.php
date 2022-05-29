@@ -154,5 +154,15 @@ class AdminController extends Controller
         $_SESSION['code'] = md5($code);
         mail($email, 'Blog | ', 'Code: ' . $code);
     }
+
+    public function findPostByTypeAction()
+    {
+        if (!empty($_POST)) {
+            $foundPosts = $this->model->findPostByType($_POST['type'], $_POST['property']); 
+            echo json_encode($foundPosts);
+            exit();
+        }
+        $this->view->redirect();
+    }
     
 }
