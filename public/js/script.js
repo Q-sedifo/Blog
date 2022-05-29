@@ -27,7 +27,7 @@ window.onload = () => {
 
         // Comments loader 
         if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
-            loadMoreComments(document.querySelector('#postId').innerHTML)
+            loadMoreComments()
         }
     }
 
@@ -78,6 +78,9 @@ window.onload = () => {
             success: (data) => {
                 btns.forEach(b => b.disabled = false)
                 preloader.stop()
+
+                // Clean form fields
+                this.querySelectorAll('input, textarea').forEach(field => field.value = '')
 
                 const response = JSON.parse(data)
 
@@ -284,9 +287,10 @@ function loadMorePosts(btn) {
 }
 
 // Ajax loading comments
-function loadMoreComments(postId) {
+function loadMoreComments() {
     if (document.querySelector('.comments-list')) {
         const loadFrom = Math.ceil(document.querySelectorAll('.comments-list .comment').length / 5 + 1)
+        const postId = document.querySelector('#postId').innerHTML
         const preloader = new Preloader()
 
         $.ajax({
