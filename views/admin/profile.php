@@ -33,7 +33,7 @@
         </div>
         <div class="btns-section">
             <input class="btn positive" type="submit" value="Save">
-            <button class="btn dark" type="button" onclick="sendCode()">Change password</button>
+            <button class="btn" type="button" onclick="sendCode()">Change password</button>
         </div>
     </form>
     <div id="changing-password-block" class="pop-up">
