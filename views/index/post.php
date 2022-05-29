@@ -7,7 +7,7 @@
     <div class="top-tile"></div>
     <div class="container">
         <div class="post-description">
-            <div class="post-info"><span class="post-id">#<?= $post['id']; ?></span><span><?= $post['datatime']; ?></span></div>
+            <div class="post-info"><span class="post-id">#<span id="postId"><?= $post['id']; ?></span></span><span><?= $post['datatime']; ?></span></div>
             <?= $post['descript']; ?>
         </div>
         <!-- Recomended posts -->

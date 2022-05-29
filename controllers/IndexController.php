@@ -43,6 +43,13 @@ class IndexController extends Controller
     {
         $postId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
+        // Get request for loading comments
+        if (isset($_GET['loadMoreComments'])) {
+            $comments = $this->model->getPostComments($_GET['postId'], 5, $_GET['loadFrom']);
+            echo json_encode($comments);
+            exit();
+        }
+
         // Add comment
         if (!empty($_POST)) {
             $form = ValidatorsFactory::create('comment');
@@ -55,7 +62,7 @@ class IndexController extends Controller
         }
 
         $post = $this->model->getPostById($postId);
-        $comments = $this->model->getPostComments($postId);
+        $comments = $this->model->getPostComments($postId, 5);
         $recomendedPosts = $this->model->getRecomendedPosts();
        
         if (!$post) $this->view->redirect();

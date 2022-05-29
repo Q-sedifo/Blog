@@ -1,6 +1,6 @@
 window.onload = () => {
 
-    // Initializing classes
+    // Initializing classes and variables
     const scroller = new Scroller()
     const menu = new Menu()
     const search = new Search()
@@ -27,7 +27,7 @@ window.onload = () => {
 
         // Comments loader 
         if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
-            loadMoreComments()
+            loadMoreComments(document.querySelector('#postId').innerHTML)
         }
     }
 
@@ -178,12 +178,15 @@ class Scroller {
 class Preloader {
     constructor() {
         this.preloader = document.getElementById('preloader')
+        this.status = 0
     }
     run() {
         this.preloader.classList.add('run-preloader')
+        this.status = 1
     }
     stop() {
         this.preloader.classList.remove('run-preloader')
+        this.status = 0
     }
 }
 
@@ -281,17 +284,19 @@ function loadMorePosts(btn) {
 }
 
 // Ajax loading comments
-function loadMoreComments() {
+function loadMoreComments(postId) {
     if (document.querySelector('.comments-list')) {
         const loadFrom = Math.ceil(document.querySelectorAll('.comments-list .comment').length / 5 + 1)
-        const inProgress = false
         const preloader = new Preloader()
 
         $.ajax({
-            url: '?controller=index&action=loadMoreComments',
-            type: 'POST',
-            data: { "loadFrom": loadFrom },
-            beforeSend: () => preloader.run(),
+            url: '?controller=index&action=post&loadMoreComments',
+            type: 'GET',
+            data: { "postId": postId, "loadFrom": loadFrom },
+            beforeSend: () => {
+                preloader.run()
+                inProgress = true
+            },
             success: (data) => {
                 const comments = JSON.parse(data)
                 comments.forEach(comment => {

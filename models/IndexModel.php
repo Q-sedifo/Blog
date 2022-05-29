@@ -66,9 +66,10 @@ class IndexModel extends Model
         return $this->query->row("INSERT INTO comments (`name`, `text`, `post_id`) VALUES ('$name', '$text', '$postId')");
     }
 
-    public function getPostComments($postId)
+    public function getPostComments($postId, $limit = 0, $portion = 1)
     {
-        return $this->query->row("SELECT id, name, text FROM comments WHERE post_id = $postId");
+        $range = $limit * ($portion - 1);
+        return $this->query->row("SELECT id, name, text FROM comments WHERE post_id = $postId ORDER BY id DESC LIMIT $range, $limit");
     }
 
 }
