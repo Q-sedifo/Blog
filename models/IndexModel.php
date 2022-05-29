@@ -49,7 +49,8 @@ class IndexModel extends Model
             $amount = count($ids) - 1;
             $first = $ids[mt_rand(0, $amount)]['id'];
             $second = $ids[mt_rand(0, $amount)]['id'];
-            return $this->query->row("SELECT id, title, mini_preview FROM posts WHERE id in($first, $second)");
+            $third = $ids[mt_rand(0, $amount)]['id'];
+            return $this->query->row("SELECT id, title, mini_preview FROM posts WHERE id in($first, $second, $third)");
         }
     }
 
