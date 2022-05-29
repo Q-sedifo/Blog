@@ -60,6 +60,8 @@ class AdminModel extends Model
 
     public function deletePost($postId)
     {
+        // Deleting all comments belong to this post
+        $this->query->row("DELETE FROM comments WHERE post_id = $postId");
         return $this->query->row("DELETE FROM posts WHERE id = $postId");
     }
 
@@ -135,7 +137,8 @@ class AdminModel extends Model
         return;
     }
 
-    public function findPostByType($type, $property) {
+    public function findPostByType($type, $property) 
+    {
         return $this->query->row("SELECT * FROM posts WHERE $type LIKE '%$property%'");
     }
 

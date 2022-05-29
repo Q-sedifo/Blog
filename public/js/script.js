@@ -299,7 +299,6 @@ function loadMoreComments() {
             data: { "postId": postId, "loadFrom": loadFrom },
             beforeSend: () => {
                 preloader.run()
-                inProgress = true
             },
             success: (data) => {
                 const comments = JSON.parse(data)
@@ -337,4 +336,19 @@ function searchPosts(text) {
     }
     // Clear field
     $('.find-field').html('')
+}
+
+function deleteComment(commentId) {
+    const preloader = new Preloader()
+    $.ajax({
+        url: '?controller=index&action=post&deleteComment',
+        type: 'GET',
+        data: { "commentId": commentId },
+        beforeSend: () => preloader.run(),
+        success: () => {
+            message.createMessage('Comment removed', 'success')
+            document.getElementById('comment#' + commentId).remove()
+            preloader.stop()
+        }
+    })
 }

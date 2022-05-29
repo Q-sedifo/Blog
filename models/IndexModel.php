@@ -76,4 +76,9 @@ class IndexModel extends Model
         return $this->query->column("SELECT COUNT(id) FROM comments WHERE post_id = $postId");
     }
 
+    public function removeComment($commentId) 
+    {
+        return $this->query->row("DELETE FROM comments WHERE id = $commentId");
+    }
+
 }

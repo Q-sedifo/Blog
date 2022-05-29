@@ -33,7 +33,7 @@
                             <div class="comment-info">
                                 <div><div class="comment-image"><img src="public/icons/user.svg"></div><?= $comment['name']; ?></div>
                                 <?php if (isset($_SESSION['admin'])): ?>
-                                    <button class="btn negative"><a href="?controller=admin&action=&commentId=<?= $comment['id']; ?>"></a>&times</button>
+                                    <button class="btn negative" onclick="deleteComment(<?= $comment['id']; ?>)">&times</button>
                                 <?php endif; ?>
                             </div>
                             <div class="comment-text">

@@ -50,6 +50,13 @@ class IndexController extends Controller
             exit();
         }
 
+        // Get request for deleting comment
+        if (isset($_GET['deleteComment'])) {
+            if (!isset($_SESSION['admin'])) $this->view->redirect();
+            $this->model->removeComment($_GET['commentId']);
+            exit();
+        }
+
         // Add comment
         if (!empty($_POST)) {
             $form = ValidatorsFactory::create('comment');
