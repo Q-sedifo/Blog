@@ -28,19 +28,19 @@ The application is developed in pure php language on the principle of OOP and is
 __Consists of several sections:__
 
 * Admin information.
-![admin information](public/images/readme/homepage.png)
+![admin information](public/readme/homepage.png)
 
 * Publications section for user.
-![publications section](public/images/readme/postsSection.png)
+![publications section](public/readme/postsSection.png)
 
 * Recomended posts section as a slider with smooth and nice animation. 
-![recomended posts secion](public/images/readme/recomendedPostsSection.png)
+![recomended posts secion](public/readme/recomendedPostsSection.png)
 
 * Admin biography section.
-![bio section](public/images/readme/bioSection.png)
+![bio section](public/readme/bioSection.png)
 
 * Field with feedback form
-![contact section](public/images/readme/contactSection.png)
+![contact section](public/readme/contactSection.png)
 
 #### __User menu__
 User menu contains three links and a block with the status of the account:
@@ -48,20 +48,20 @@ User menu contains three links and a block with the status of the account:
 * admin panel
 * login
 
-![user menu](public/images/readme/userMenu.png)
-![user menu2](public/images/readme/userMenuShort.png)
+![user menu](public/readme/userMenu.png)
+![user menu2](public/readme/userMenuShort.png)
 
 #### __Post page__
 As on the home page, it consists of different sections:
 
 * Post preview with date and time of publication. its image, title and description
-![post description](public/images/readme/postDescription.png)
+![post description](public/readme/postDescription.png)
 
 * Recomended posts section
-![recomended posts](public/images/readme/postRecomendedPostsSection.png)
+![recomended posts](public/readme/postRecomendedPostsSection.png)
 
 * Comments section
-![comments section](public/images/readme/commentsSection.png)
+![comments section](public/readme/commentsSection.png)
 
 A user has the opportunity of adding comments and his own opinion to publicstion. _The administrator can delete comments._
 
@@ -70,10 +70,10 @@ Admin panel has her own application space for editing, adding and controlling bo
 
 * Admin home page
 Includes all possible posts with the ability to edit and delete.
-![admin home page](public/images/readme/adminHomePage.png)
-![deleting post](public/images/readme/deletingPost.png)
+![admin home page](public/readme/adminHomePage.png)
+![deleting post](public/readme/deletingPost.png)
 Also, there is section for searching required post by title or its id.
-![admin search](public/images/readme/adminSearch.png)
+![admin search](public/readme/adminSearch.png)
 
 #### __Admin Menu__
 Menu for administrator includes the following links and functions:
@@ -82,55 +82,55 @@ Menu for administrator includes the following links and functions:
 * add post
 * profile
 * logs (admin activity)
-![admin menu](public/images/readme/adminMenu.png)
+![admin menu](public/readme/adminMenu.png)
 
 #### __Add post page__
 On the add post page you can add a title, description and preview.
-![add post page](public/images/readme/addPostPage.png)
+![add post page](public/readme/addPostPage.png)
 
 #### __Edit post page__
-![edit post page](public/images/readme/editPost.png)
+![edit post page](public/readme/editPost.png)
 
 #### __Profile page__
-![profile page](public/images/readme/profilePage.png)
+![profile page](public/readme/profilePage.png)
 On the profile page the administrator can change the name, biography, background image, avatar, e-mail and password.
-![change password](public/images/readme/changePassword.png)
+![change password](public/readme/changePassword.png)
 The password change system works very simply, as soon as the change form is opened, a unique code is sent to the specified e-mail of the administrator which needs to be confirmed. If you enter an incorrect code, the system throws the administrator out of the account to prevent hacking.
 
 #### __Logs__
 After you click on the logs button, a window with the login history of the account opens, which has detailed information about the user's ip, time and date of login.
-![logs window](public/images/readme/logsWindow.png)
+![logs window](public/readme/logsWindow.png)
 
 #### __Login page__
 Admin panel login page
-![login page](public/images/readme/loginPage.png)
+![login page](public/readme/loginPage.png)
 
 #### __Post search__
 No less important element in the application is the functionality of searching for available posts.
-![user posts search](public/images/readme/postsSearch.png)
+![user posts search](public/readme/postsSearch.png)
 
 #### __View for mobile devices__
 The following pictures show how this application will look on mobile devices with different screen extensions.
 * Menu
-![menu mobile](public/images/readme/adminMenuMobile.png)
+![menu mobile](public/readme/adminMenuMobile.png)
 * home page
-![home page mobile](public/images/readme/homePageMobile.png)
+![home page mobile](public/readme/homePageMobile.png)
 * post page
-![post page mobile](public/images/readme/postPageMobile.png)
-![post page mobile](public/images/readme/postPageMobile2.png)
+![post page mobile](public/readme/postPageMobile.png)
+![post page mobile](public/readme/postPageMobile2.png)
 * post search
-![post search mobile](public/images/readme/postsSearchMobile.png)
+![post search mobile](public/readme/postsSearchMobile.png)
 * login page 
-![login page mobile](public/images/readme/loginPageMobile.png)
+![login page mobile](public/readme/loginPageMobile.png)
 * admin home page
-![admin page mobile](public/images/readme/adminPageMobile.png)
+![admin page mobile](public/readme/adminPageMobile.png)
 * logs window
-![logs window mobile](public/images/readme/logsWindowMobile.png)
+![logs window mobile](public/readme/logsWindowMobile.png)
 * edit page
-![edit page mobile](public/images/readme/editPageMobile.png)
+![edit page mobile](public/readme/editPageMobile.png)
 * profile page
-![profile page mobile](public/images/readme/profileMobile.png)
-![profile page mobile2](public/images/readme/profileMobile2.png)
+![profile page mobile](public/readme/profileMobile.png)
+![profile page mobile2](public/readme/profileMobile2.png)
 
 #### __Engoy :)__
 -> [Github](https://github.com/Q-sedifo) -> [Instagram](https://www.instagram.com/oleg_s.t/)
